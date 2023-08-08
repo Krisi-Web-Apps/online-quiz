@@ -27,10 +27,14 @@ if (isset($_POST) && $_SERVER["REQUEST_METHOD"] == "POST") {
   $user = $db->select("SELECT * FROM users WHERE email = :email;", $params);
 
   if ($user == FALSE) {
-    $response->sendError("email_is_not_found", 404);
+    $response->sendError("invalid_email_or_password", 400);
   }
 
   $user = $user[0];
+
+  if (password_verify($password, $user["password"]) == FALSE) {
+    $response->sendError("invalid_email_or_password", 400);
+  }
 
   $krisi_jwt = new KrisiJWT(SECRET_JWT);
   $payload = [

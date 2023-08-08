@@ -32,6 +32,13 @@ if (isset($_POST) && $_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $password_hash = password_hash($password, PASSWORD_BCRYPT);
+
+  $data = array(
+    "fullname" => $fullname,
+    "email" => $email,
+    "password" => $password_hash,
+  );
+  $db->insert("users", $data);
   
   $response->setStatusCode(201);
   $response->setData([]);

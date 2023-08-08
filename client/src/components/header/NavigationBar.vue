@@ -5,6 +5,7 @@
         <q-toolbar-title> Online Quiz </q-toolbar-title>
         <div>
           <q-btn icon="person" label="register" flat @click="registerOpen" />
+          <q-btn icon="login" label="login" flat @click="loginOpen" />
         </div>
       </div>
     </div>
@@ -22,6 +23,9 @@ export default {
     const functions = {
       registerOpen() {
         env.dialogs.users.register = true;
+      },
+      loginOpen() {
+        env.dialogs.users.login = true;
       }
     }
 

@@ -6,6 +6,7 @@ export const EnvStore = defineStore("env", {
     dialogs: {
       users: {
         register: false,
+        login: false,
       },
     },
   }),

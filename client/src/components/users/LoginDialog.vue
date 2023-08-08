@@ -82,6 +82,7 @@ export default {
           if (status == 201) {
             env.dialogs.users.login = false;
             env.ts("successful_login");
+            user.getUser();
           }
           if (status >= 400) {
             env.te(message);

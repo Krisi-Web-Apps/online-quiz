@@ -38,7 +38,7 @@ export const UserStore = defineStore("user", {
         .finally(() => (this.loading = false));
     },
     afterLogin(token) {
-      api.defaults.headers.authorization = token;
+      api.defaults.headers.authorization = `Bearer ${token}`;
       localStorage.setItem("token", JSON.stringify(token));
     },
     logout() {

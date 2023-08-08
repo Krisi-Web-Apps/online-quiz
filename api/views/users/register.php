@@ -32,15 +32,8 @@ if (isset($_POST) && $_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $password_hash = password_hash($password, PASSWORD_BCRYPT);
-
-  $data = array(
-    "email" => $email,
-    "password" => $password_hash,
-    "fullname" => $fullname,
-  );
   
-  $db->insert("users", $data);
-  
-  $response->setData($data);
+  $response->setStatusCode(201);
+  $response->setData([]);
   $response->sendJson();
 }

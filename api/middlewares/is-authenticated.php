@@ -4,7 +4,7 @@ $response = new Response();
 global $db;
 $krisi_jwt = new KrisiJWT(SECRET_JWT);
 
-if (isset($_SERVER["HTTP_AUTHORIZATION"])) {
+if (isset($_SERVER["HTTP_AUTHORIZATION"]) && empty($_SERVER["HTTP_AUTHORIZATION"]) == FALSE) {
 
   $full_token = $_SERVER["HTTP_AUTHORIZATION"];
   $token = explode(" ", $full_token)[1];

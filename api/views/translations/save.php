@@ -1,5 +1,7 @@
 <?php
 
+require "middlewares/is-authenticated.php";
+
 $response = new Response();
 global $db;
 

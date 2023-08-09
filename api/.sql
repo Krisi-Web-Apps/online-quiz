@@ -6,3 +6,11 @@ CREATE TABLE `users` (
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE `translations` (
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `text` TEXT NOT NULL,
+  `lang` VARCHAR(20) NOT NULL,
+  INDEX (`lang`)
+) ENGINE = InnoDB;

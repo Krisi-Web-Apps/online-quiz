@@ -70,4 +70,8 @@ class Database
     $sql = "DELETE FROM $table WHERE $where";
     $this->query($sql, $params);
   }
+
+  public function lastInsertedId() {
+    return $this->pdo->lastInsertId();
+  }
 }

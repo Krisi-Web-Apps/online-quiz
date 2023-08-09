@@ -8,6 +8,7 @@ export const UserStore = defineStore("user", {
     url: "/users",
     credentials: {},
     me: {},
+    lang: "bg"
   }),
   actions: {
     register(cb) {

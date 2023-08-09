@@ -31,7 +31,7 @@ export default {
       },
     };
 
-    return { env, ...functions };
+    return { env, translation, ...functions };
   },
 };
 </script>

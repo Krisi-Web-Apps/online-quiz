@@ -2,12 +2,14 @@
 
 <script>
 import { EnvStore } from 'src/stores/env';
+import { TranslationStore } from 'src/stores/translation';
 import { UserStore } from 'src/stores/user';
 
 export default {
   setup() {
     const user = UserStore();
     const env = EnvStore();
+    const translation = TranslationStore();
 
     const token = JSON.parse(localStorage.getItem("token"));
 
@@ -17,8 +19,12 @@ export default {
       return;
     }
 
+    function getTranslations() {
+      translation.getItemsByUserLang(user.lang);
+    }
+
     user.afterLogin(token);
-    user.getUser();
+    user.getUser(getTranslations);
   }
 };
 </script>

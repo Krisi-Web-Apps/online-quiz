@@ -5,7 +5,7 @@
     v-model="isDrowerOpen"
     class="text-black bg-grey-2"
   >
-    <h2 class="text-h6 q-ml-lg">menu</h2>
+    <h2 class="text-h6 q-ml-lg">{{ $t("website_title") }}</h2>
     <q-list>
       <q-item clickable v-ripple @click="router.push({ name: 'home' })">
         <q-item-section avatar>

@@ -22,5 +22,21 @@ export const TranslationStore = defineStore("translation", {
         })
         .finally(() => this.loading = false);
     },
+    getItemsByUserLang(lang) {
+      this.loading = true;
+      api.get(`${this.url}/all`, {
+        params: {
+          lang: lang,
+        }
+      })
+      .then((res) => {
+        this.items = res.data;
+        if (cb) cb(res.status);
+      })
+      .catch((err) => {
+        if (cb) cb(err.response.status, err.response.data.error);
+      })
+      .finally(() => this.loading = false);
+    }
   },
 });

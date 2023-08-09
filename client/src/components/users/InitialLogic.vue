@@ -14,6 +14,7 @@ export default {
     if (!token) {
       user.logout();
       env.dialogs.users.login = true;
+      return;
     }
 
     user.afterLogin(token);

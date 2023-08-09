@@ -9,6 +9,9 @@ export const EnvStore = defineStore("env", {
         login: false,
       },
     },
+    layout: {
+      leftDrower: true,
+    }
   }),
   actions: {
     validateEmail(email) {

@@ -2,7 +2,16 @@
   <q-toolbar>
     <div class="container">
       <div class="flex">
-        <q-toolbar-title> Online Quiz </q-toolbar-title>
+        <q-toolbar-title>
+          <span>Online Quiz</span>
+          <q-btn
+            icon="menu"
+            flat
+            fab-mini
+            @click="env.layout.leftDrower = !env.layout.leftDrower"
+            class="q-ml-md"
+          />
+        </q-toolbar-title>
         <div v-if="user.isLoggedIn">
           <q-btn
             icon="person"
@@ -11,13 +20,7 @@
             no-caps
             @click="$router.push({ name: 'profile' })"
           />
-          <q-btn
-            icon="logout"
-            label="logout"
-            flat
-            no-caps
-            @click="logout"
-          />
+          <q-btn icon="logout" label="logout" flat no-caps @click="logout" />
         </div>
         <div v-else>
           <q-btn
@@ -54,10 +57,10 @@ export default {
       logout() {
         user.logout();
         env.dialogs.users.login = true;
-      }
+      },
     };
 
-    return { user, ...functions };
+    return { env, user, ...functions };
   },
 };
 </script>

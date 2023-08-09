@@ -4,9 +4,10 @@ import { api } from "src/boot/axios";
 export const UserStore = defineStore("user", {
   state: () => ({
     loading: false,
+    isLoggedIn: false,
     url: "/users",
     credentials: {},
-    me: {}
+    me: {},
   }),
   actions: {
     register(cb) {
@@ -40,10 +41,12 @@ export const UserStore = defineStore("user", {
     afterLogin(token) {
       api.defaults.headers.authorization = `Bearer ${token}`;
       localStorage.setItem("token", JSON.stringify(token));
+      this.isLoggedIn = true;
     },
     logout() {
       api.defaults.headers.authorization = null;
       localStorage.removeItem("token");
+      this.isLoggedIn = false;
     },
     getUser(cb) {
       this.loading = true;

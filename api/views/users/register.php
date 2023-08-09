@@ -39,8 +39,10 @@ if (isset($_POST) && $_SERVER["REQUEST_METHOD"] == "POST") {
     "password" => $password_hash,
   );
   $db->insert("users", $data);
-  
+
   $response->setStatusCode(201);
   $response->setData([]);
   $response->sendJson();
+} else {
+  $response->sendError("Method not allowed", 405);
 }

@@ -7,3 +7,7 @@ $router->addRoute("/users/register", function () {
 $router->addRoute("/users/login", function () {
   view("users/login");
 });
+
+$router->addRoute("/users", function () {
+  view("users/user");
+});

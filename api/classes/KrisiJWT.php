@@ -22,14 +22,15 @@ class KrisiJWT
 
   public function decode($token)
   {
-    list($encodedHeader, $encodedPayload, $encodedSignature) = explode('.', $token);
-    $header = json_decode($this->base64UrlDecode($encodedHeader), true);
+    list($encodedHeader, $encodedPayload, $encodedSignature, $salt) = explode('.', $token);
+    json_decode($this->base64UrlDecode($encodedHeader), true);
     $payload = json_decode($this->base64UrlDecode($encodedPayload), true);
     $signature = $this->base64UrlDecode($encodedSignature);
-    if ($this->verifySignature("$encodedHeader.$encodedPayload", $signature)) {
-      return $payload;
+    
+    if ($this->verifySignature("$encodedHeader.$encodedPayload.$salt", $signature)) {
+        return $payload;
     } else {
-      return null;
+      throw new \Exception("Invalid JWT signature", 401);
     }
   }
 

@@ -4,7 +4,7 @@ $response = new Response();
 global $db;
 
 if (isset($_POST) && $_SERVER["REQUEST_METHOD"] == "POST") {
-  
+
   $jsonData = file_get_contents('php://input');
   $data = json_decode($jsonData, true);
 
@@ -49,4 +49,6 @@ if (isset($_POST) && $_SERVER["REQUEST_METHOD"] == "POST") {
   $response->setData(array("token" => $token));
   $response->setStatusCode(201);
   $response->sendJson();
+} else {
+  $response->sendError("Method not allowed", 405);
 }

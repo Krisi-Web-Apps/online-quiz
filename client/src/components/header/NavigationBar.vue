@@ -3,9 +3,31 @@
     <div class="container">
       <div class="flex">
         <q-toolbar-title> Online Quiz </q-toolbar-title>
-        <div>
-          <q-btn icon="person" label="register" flat @click="registerOpen" />
-          <q-btn icon="login" label="login" flat @click="loginOpen" />
+        <div v-if="user.isLoggedIn">
+          <q-btn
+            icon="person"
+            label="profile"
+            flat
+            no-caps
+            @click="$router.push({ name: 'profile' })"
+          />
+          <q-btn
+            icon="logout"
+            label="logout"
+            flat
+            no-caps
+            @click="logout"
+          />
+        </div>
+        <div v-else>
+          <q-btn
+            icon="person"
+            label="register"
+            flat
+            no-caps
+            @click="registerOpen"
+          />
+          <q-btn icon="login" label="login" flat no-caps @click="loginOpen" />
         </div>
       </div>
     </div>
@@ -14,11 +36,13 @@
 
 <script>
 import { EnvStore } from "src/stores/env";
+import { UserStore } from "src/stores/user";
 
 export default {
   name: "NavigationBar",
   setup() {
     const env = EnvStore();
+    const user = UserStore();
 
     const functions = {
       registerOpen() {
@@ -26,10 +50,14 @@ export default {
       },
       loginOpen() {
         env.dialogs.users.login = true;
+      },
+      logout() {
+        user.logout();
+        env.dialogs.users.login = true;
       }
-    }
+    };
 
-    return { ...functions }
-  }
+    return { user, ...functions };
+  },
 };
 </script>

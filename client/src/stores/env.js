@@ -8,10 +8,23 @@ export const EnvStore = defineStore("env", {
         register: false,
         login: false,
       },
+      translations: {
+        saving: false,
+      }
     },
     layout: {
       leftDrower: true,
-    }
+    },
+    languages: [
+      {
+        key: "Български",
+        value: "bg"
+      },
+      {
+        key: "English US",
+        value: "en-US"
+      }
+    ]
   }),
   actions: {
     validateEmail(email) {

@@ -8,7 +8,6 @@ export const UserStore = defineStore("user", {
     url: "/users",
     credentials: {},
     me: {},
-    lang: "bg"
   }),
   actions: {
     register(cb) {
@@ -48,14 +47,29 @@ export const UserStore = defineStore("user", {
     },
     getUser(cb) {
       this.loading = true;
-      api.get(`${this.url}`).then((res) => {
-        this.me = res.data;
-        if (cb) cb(res.status);
-      })
-      .catch((err) => {
-        if (cb) cb(err.response.status, err.response.data.error)
-      })
-      .finally(() => this.loading = false);
+      api
+        .get(`${this.url}`)
+        .then((res) => {
+          this.me = res.data;
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => (this.loading = false));
+    },
+    saveItem(cb) {
+      this.loading = true;
+      api
+        .post(this.url, this.me)
+        .then((res) => {
+          this.me = res.data;
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => (this.loading = false));
     },
   },
 });

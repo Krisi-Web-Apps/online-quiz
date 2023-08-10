@@ -3,15 +3,13 @@ import { createI18n } from "vue-i18n";
 import axios from "axios";
 const translations = localStorage.getItem("translations")
   ? JSON.parse(localStorage.getItem("translations"))
-  : (await axios.get("http://localhost/translations/all", { params: { lang: "bg" } })).data;
+  : (await axios.get("http://localhost/translations/all")).data;
 // if (!localStorage.getItem("translations"))
 //   localStorage.setItem("translations", JSON.stringify(translations));
 
 const i18n = createI18n({
-  locale: localStorage.getItem("lang") || "bg",
-  messages: {
-    bg: translations,
-  }
+  locale: localStorage.getItem("locale") || "bg",
+  messages: translations
 });
 export default boot(async ({ app }) => {
   // Set i18n instance on app

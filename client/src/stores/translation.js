@@ -7,6 +7,8 @@ export const TranslationStore = defineStore("translation", {
     url: "/translations",
     item: {},
     items: [],
+    displingItems: [],
+    tab: "bg"
   }),
   actions: {
     saveItem(cb) {
@@ -37,6 +39,23 @@ export const TranslationStore = defineStore("translation", {
         if (cb) cb(err.response.status, err.response.data.error);
       })
       .finally(() => this.loading = false);
+    },
+    getItems(cb) {
+      this.loading = true;
+      api
+        .get(`${this.url}/admin`, {
+          params: {
+            lang: this.tab
+          }
+        })
+        .then((res) => {
+          this.displingItems = res.data;
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => this.loading = false);
     }
   },
 });

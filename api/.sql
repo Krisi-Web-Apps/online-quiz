@@ -4,6 +4,7 @@ CREATE TABLE `users` (
   `password` VARCHAR(255) NOT NULL,
   `fullname` VARCHAR(100) NOT NULL,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `lang` VARCHAR(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
 
@@ -11,6 +12,6 @@ CREATE TABLE `translations` (
   `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
   `name` VARCHAR(100) NOT NULL,
   `text` TEXT NOT NULL,
-  `lang` VARCHAR(20) NOT NULL,
+  `lang` VARCHAR(20) NOT NULL DEFAULT `bg`,
   INDEX (`lang`)
 ) ENGINE = InnoDB;

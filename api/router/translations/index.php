@@ -7,3 +7,7 @@ $router->addRoute("/translations", function () {
 $router->addRoute("/translations/all", function () {
   view("translations/all");
 });
+
+$router->addRoute("/translations/admin", function () {
+  view("translations/admin");
+});

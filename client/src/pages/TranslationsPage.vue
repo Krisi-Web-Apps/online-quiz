@@ -8,6 +8,7 @@
   <q-dialog v-model="env.dialogs.translations.saving">
     <save-dialog />
   </q-dialog>
+  <language-tabs />
 </template>
 
 <script>
@@ -15,10 +16,12 @@ import { EnvStore } from "src/stores/env";
 import { TranslationStore } from "src/stores/translation";
 
 import SaveDialog from "src/components/translations/SaveDialog.vue";
+import LanguageTabs from "src/components/translations/LanguageTabs.vue";
 
 export default {
   components: {
     SaveDialog,
+    LanguageTabs,
   },
   setup() {
     const env = EnvStore();

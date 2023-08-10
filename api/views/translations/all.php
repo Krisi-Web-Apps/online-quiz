@@ -3,15 +3,18 @@
 $response = new Response();
 global $db;
 
-$lang = $_GET["lang"];
-
-$params = array(":lang" => $lang);
-$translations = $db->select("SELECT * FROM translations WHERE lang = :lang;", $params);
+$translations = $db->select("SELECT * FROM translations;");
 
 $transformedTranslations = [];
 
 foreach ($translations as $translation) {
-  $transformedTranslations[$translation['name']] = $translation['text'];
+  $locale = $translation['lang'];
+
+  if (!isset($transformedTranslations[$locale])) {
+    $transformedTranslations[$locale] = [];
+  }
+
+  $transformedTranslations[$locale][$translation['name']] = $translation['text'];
 }
 
 $response->setData($transformedTranslations);

@@ -21,7 +21,13 @@
             no-caps
             @click="$router.push({ name: 'profile' })"
           />
-          <q-btn icon="logout" :label="$t('logout')" flat no-caps @click="logout" />
+          <q-btn
+            icon="logout"
+            :label="$t('logout')"
+            flat
+            no-caps
+            @click="logout"
+          />
         </div>
         <div v-else>
           <q-btn
@@ -31,7 +37,13 @@
             no-caps
             @click="registerOpen"
           />
-          <q-btn icon="login" label="login" flat no-caps @click="loginOpen" />
+          <q-btn
+            icon="login"
+            :label="$t('login')"
+            flat
+            no-caps
+            @click="loginOpen"
+          />
         </div>
       </div>
     </div>

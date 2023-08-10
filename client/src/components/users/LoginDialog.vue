@@ -67,6 +67,7 @@
 </template>
 
 <script>
+import { i18n } from "src/boot/i18n";
 import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
 
@@ -75,13 +76,14 @@ export default {
   setup() {
     const env = EnvStore();
     const user = UserStore();
+    const $t = i18n.global.t;
 
     const functions = {
       submit() {
         user.login((status, message) => {
           if (status == 201) {
             env.dialogs.users.login = false;
-            env.ts("successful_login");
+            env.ts($t('successful_login'));
             user.getUser();
           }
           if (status >= 400) {

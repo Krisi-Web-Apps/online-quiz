@@ -1,7 +1,7 @@
 <template>
   <q-card style="width: 700px; max-width: 80vw">
     <q-card-section class="text-white bg-primary text-center">
-      <div class="text-h6">login</div>
+      <div class="text-h6">{{ $t("login") }}</div>
     </q-card-section>
 
     <q-card-section>
@@ -10,14 +10,14 @@
           <q-input
             filled
             v-model="user.credentials.email"
-            label="email"
-            hint="enter_a_valid_email"
+            :label="$t('email')"
+            :hint="$t('enter_a_valid_email')"
             autofocus
             :disable="user.loading"
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'this_field_is_required',
-              (val) => (val && env.validateEmail(val)) || 'invalid_email',
+              (val) => (val && val.length > 0) || $t('this_field_is_required'),
+              (val) => (val && env.validateEmail(val)) || $t('invalid_email'),
             ]"
           >
             <template v-slot:prepend>
@@ -29,13 +29,13 @@
           <q-input
             filled
             v-model="user.credentials.password"
-            label="password"
-            hint="enter_a_strong_password"
+            :label="$t('password')"
+            :hint="$t('enter_a_strong_password')"
             autofocus
             :disable="user.loading"
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'this_field_is_required',
+              (val) => (val && val.length > 0) || $t('this_field_is_required'),
             ]"
           >
             <template v-slot:prepend>
@@ -49,7 +49,7 @@
     <q-card-actions class="text-white bg-secondary text-center">
       <q-btn
         flat
-        label="login"
+        :label="$t('login')"
         :disable="user.loading"
         :loading="user.loading"
         no-caps
@@ -57,7 +57,7 @@
       />
       <q-btn
         flat
-        label="cancel"
+        :label="$t('cancel')"
         :disable="user.loading"
         no-caps
         v-close-popup

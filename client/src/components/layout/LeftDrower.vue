@@ -5,13 +5,13 @@
     v-model="isDrowerOpen"
     class="text-black bg-grey-2"
   >
-    <h2 class="text-h6 q-ml-lg">{{ $t("website_title") }}</h2>
+    <h2 class="text-h6 q-ml-lg">{{ $t("online_quiz") }}</h2>
     <q-list>
       <q-item clickable v-ripple @click="router.push({ name: 'home' })">
         <q-item-section avatar>
           <q-icon :color="isActive('home') ? 'primary' : null" name="home" />
         </q-item-section>
-        <q-item-section :class="getClasses('home')"> home </q-item-section>
+        <q-item-section :class="getClasses('home')"> {{ $t("home") }} </q-item-section>
       </q-item>
       <q-item clickable v-ripple @click="router.push({ name: 'translations' })">
         <q-item-section avatar>
@@ -21,7 +21,7 @@
           />
         </q-item-section>
         <q-item-section :class="getClasses('translations')">
-          translations
+          {{ $t("translations") }}
         </q-item-section>
       </q-item>
     </q-list>

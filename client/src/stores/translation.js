@@ -22,7 +22,7 @@ export const TranslationStore = defineStore("translation", {
         })
         .finally(() => this.loading = false);
     },
-    getItemsByUserLang(lang) {
+    getItemsByUserLang(lang, cb) {
       this.loading = true;
       api.get(`${this.url}/all`, {
         params: {

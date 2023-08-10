@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
-import { Notify } from 'quasar'
+import { Notify } from 'quasar';
+import { i18n } from 'src/boot/i18n';
+
+const $t = i18n.global.t;
 
 export const EnvStore = defineStore("env", {
   state: () => ({
@@ -31,7 +34,7 @@ export const EnvStore = defineStore("env", {
       const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       return regex.test(email);
     },
-    ts(message = "save_changes_successfuly") {
+    ts(message = $t("save_changes_successfuly")) {
       Notify.create({
         position: 'bottom-left',
         timeout: 2500,
@@ -41,7 +44,7 @@ export const EnvStore = defineStore("env", {
         actions: [{ icon: 'close', color: 'white' }]
       });
     },
-    te(message = "something_went_wrong") {
+    te(message = $t("something_went_wrong")) {
       Notify.create({
         position: 'bottom-left',
         timeout: 2500,

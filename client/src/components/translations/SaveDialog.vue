@@ -2,7 +2,7 @@
   <q-card style="width: 700px; max-width: 80vw">
     <q-card-section class="text-white bg-primary text-center">
       <div class="text-h6">
-        {{ !translation.item.id ? `add_translation` : `edit_translation` }}
+        {{ !translation.item.id ? $t('add_translation') : $t('edit_translation') }}
       </div>
     </q-card-section>
 
@@ -12,13 +12,13 @@
           <q-input
             filled
             v-model="translation.item.name"
-            label="name"
-            hint="enter_a_key_with_underscores"
+            :label="$t('name')"
+            :hint="$t('enter_a_key_with_underscores')"
             autofocus
             :disable="translation.loading"
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'this_field_is_required',
+              (val) => (val && val.length > 0) || $t('this_field_is_required'),
             ]"
           >
             <template v-slot:prepend>
@@ -30,12 +30,12 @@
           <q-input
             filled
             v-model="translation.item.text"
-            label="text"
+            :label="$t('text')"
             autofocus
             :disable="translation.loading"
             lazy-rules
             :rules="[
-              (val) => (val && val.length > 0) || 'this_field_is_required',
+              (val) => (val && val.length > 0) || $t('this_field_is_required'),
             ]"
           >
             <template v-slot:prepend>
@@ -48,7 +48,7 @@
             clearable
             filled
             v-model="translation.item.lang"
-            label="lang"
+            :label="$t('lang')"
             :options="env.languages"
             :option-label="(val) => val.key"
             :option-value="(val) => val.value"
@@ -66,11 +66,11 @@
         no-caps
         @click="$.refs.translationForm.submit()"
       >
-        {{ !translation.item.id ? `add_translation` : `edit_translation` }}
+        {{ !translation.item.id ? $t('add_translation') : $t('edit_translation') }}
       </q-btn>
       <q-btn
         flat
-        label="cancel"
+        :label="$t('cancel')"
         :disable="translation.loading"
         no-caps
         v-close-popup
@@ -83,17 +83,20 @@
 import { EnvStore } from "src/stores/env";
 import { TranslationStore } from "src/stores/translation";
 
+import { i18n } from "src/boot/i18n";
+
 export default {
   setup() {
     const env = EnvStore();
     const translation = TranslationStore();
+    const $t = i18n.global.t;
 
     const functions = {
       submit() {
         translation.saveItem((status, message) => {
           if (status == 201) {
             env.dialogs.translations.saving = false;
-            env.ts("successful_created_translation");
+            env.ts($t("successful_created_translation"));
             setTimeout(() => {
               env.dialogs.translations.saving = true;
               translation.item = { lang: translation.item.lang }

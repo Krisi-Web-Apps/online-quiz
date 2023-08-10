@@ -3,29 +3,30 @@
     <div class="container">
       <div class="flex">
         <q-toolbar-title>
-          <span>Online Quiz</span>
+          <span>{{ $t("online_quiz") }}</span>
           <q-btn
             icon="menu"
             flat
             fab-mini
             @click="env.layout.leftDrower = !env.layout.leftDrower"
             class="q-ml-md"
+            v-if="user.isLoggedIn"
           />
         </q-toolbar-title>
         <div v-if="user.isLoggedIn">
           <q-btn
             icon="person"
-            label="profile"
+            :label="$t('profile')"
             flat
             no-caps
             @click="$router.push({ name: 'profile' })"
           />
-          <q-btn icon="logout" label="logout" flat no-caps @click="logout" />
+          <q-btn icon="logout" :label="$t('logout')" flat no-caps @click="logout" />
         </div>
         <div v-else>
           <q-btn
             icon="person"
-            label="register"
+            :label="$t('register')"
             flat
             no-caps
             @click="registerOpen"

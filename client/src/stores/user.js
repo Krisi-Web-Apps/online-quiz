@@ -20,7 +20,6 @@ export const UserStore = defineStore("user", {
         })
         .catch((err) => {
           if (cb) cb(err.response.status, err.response.data.error);
-          else console.log(err);
         })
         .finally(() => (this.loading = false));
     },
@@ -29,13 +28,11 @@ export const UserStore = defineStore("user", {
       api
         .post(`${this.url}/login`, this.credentials)
         .then((res) => {
-          console.log(res.data);
           this.afterLogin(res.data.token);
           if (cb) cb(res.status);
         })
         .catch((err) => {
           if (cb) cb(err.response.status, err.response.data.error);
-          else console.log(err);
         })
         .finally(() => (this.loading = false));
     },
@@ -57,7 +54,6 @@ export const UserStore = defineStore("user", {
       })
       .catch((err) => {
         if (cb) cb(err.response.status, err.response.data.error)
-        else console.log(err);
       })
       .finally(() => this.loading = false);
     },

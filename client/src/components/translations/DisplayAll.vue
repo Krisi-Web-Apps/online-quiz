@@ -39,8 +39,6 @@ export default {
     const env = EnvStore();
     const translation = TranslationStore();
 
-    console.log(0);
-
     if (translation.tab != "bg")
       translation.getItemsWithout(translation.tab, null);
     else translation.getItems();

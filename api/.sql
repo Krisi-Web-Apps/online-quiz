@@ -15,3 +15,12 @@ CREATE TABLE `translations` (
   `lang` VARCHAR(20) NOT NULL DEFAULT `bg`,
   INDEX (`lang`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE `categories` (
+  `id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `slug` VARCHAR(100) NOT NULL,
+  `description` TEXT NOT NULL,
+  `lang` VARCHAR(20) NOT NULL DEFAULT `bg`,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;

@@ -8,6 +8,7 @@ export const TranslationStore = defineStore("translation", {
     item: {},
     items: [],
     displingItems: [],
+    displayWithoutAnyLangItems: [],
     tab: "bg"
   }),
   actions: {
@@ -50,6 +51,23 @@ export const TranslationStore = defineStore("translation", {
         })
         .then((res) => {
           this.displingItems = res.data;
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => this.loading = false);
+    },
+    getItemsWithout(withoutLang, cb) {
+      this.loading = true;
+      api
+        .get(`${this.url}/admin`, {
+          params: {
+            without_lang: withoutLang,
+          }
+        })
+        .then((res) => {
+          this.displayWithoutAnyLangItems = res.data;
           if (cb) cb(res.status);
         })
         .catch((err) => {

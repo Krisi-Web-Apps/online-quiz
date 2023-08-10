@@ -2,7 +2,9 @@
   <q-card style="width: 700px; max-width: 80vw">
     <q-card-section class="text-white bg-primary text-center">
       <div class="text-h6">
-        {{ !translation.item.id ? $t('add_translation') : $t('edit_translation') }}
+        {{
+          !translation.item.id ? $t("add_translation") : $t("edit_translation")
+        }}
       </div>
     </q-card-section>
 
@@ -14,8 +16,9 @@
             v-model="translation.item.name"
             :label="$t('name')"
             :hint="$t('enter_a_key_with_underscores')"
-            autofocus
+            :autofocus="!env.dialogs.translations.isSecondLang"
             :disable="translation.loading"
+            :readonly="env.dialogs.translations.isSecondLang"
             lazy-rules
             :rules="[
               (val) => (val && val.length > 0) || $t('this_field_is_required'),
@@ -66,7 +69,9 @@
         no-caps
         @click="$.refs.translationForm.submit()"
       >
-        {{ !translation.item.id ? $t('add_translation') : $t('edit_translation') }}
+        {{
+          !translation.item.id ? $t("add_translation") : $t("edit_translation")
+        }}
       </q-btn>
       <q-btn
         flat
@@ -92,20 +97,34 @@ export default {
     const $t = i18n.global.t;
 
     const functions = {
+      callback(status, message) {
+        if (status == 201) {
+          functions.onSuccess();
+        }
+        if (status >= 400) {
+          functions.onError(message);
+        }
+      },
       submit() {
-        translation.saveItem((status, message) => {
-          if (status == 201) {
-            env.dialogs.translations.saving = false;
-            env.ts($t("successful_created_translation"));
-            setTimeout(() => {
-              env.dialogs.translations.saving = true;
-              translation.item = { lang: translation.item.lang }
-            }, 500);
-          }
-          if (status >= 400) {
-            env.te(message);
-          }
-        });
+        translation.saveItem(functions.callback);
+      },
+      onSuccess() {
+        env.ts($t("successful_created_translation"));
+
+        if (!env.dialogs.translations.isSecondLang) {
+          setTimeout(() => {
+            env.dialogs.translations.saving = true;
+            translation.item = { lang: translation.item.lang };
+          }, 500);
+          translation.getItems();
+        } else {
+          translation.getItemsWithout("en-US");
+        }
+
+        env.dialogs.translations.saving = false;
+      },
+      onError(message) {
+        env.te(message);
       },
     };
 

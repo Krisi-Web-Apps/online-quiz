@@ -5,7 +5,7 @@
       <q-btn :label="$t('add_translation')" color="primary" @click="createOpen" />
     </div>
   </div>
-  <q-dialog v-model="env.dialogs.translations.saving">
+  <q-dialog v-model="env.dialogs.translations.saving" @hide="onClose">
     <save-dialog />
   </q-dialog>
   <language-tabs />
@@ -28,9 +28,12 @@ export default {
     const translation = TranslationStore();
 
     const functions = {
+      onClose() {
+        env.dialogs.translations.isSecondLang = false;
+      },
       createOpen() {
         env.dialogs.translations.saving = true;
-        translation.item = { lang: "bg" }
+        translation.item = { lang: translation.tab }
       },
     };
 

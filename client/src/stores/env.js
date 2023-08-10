@@ -13,6 +13,7 @@ export const EnvStore = defineStore("env", {
       },
       translations: {
         saving: false,
+        isSecondLang: false,
       }
     },
     layout: {
@@ -26,6 +27,10 @@ export const EnvStore = defineStore("env", {
       {
         key: "English US",
         value: "en-US"
+      },
+      {
+        key: "Русский",
+        value: "ru"
       }
     ]
   }),

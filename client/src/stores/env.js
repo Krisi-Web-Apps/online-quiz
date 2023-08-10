@@ -21,15 +21,15 @@ export const EnvStore = defineStore("env", {
     },
     languages: [
       {
-        key: "Български",
+        key: $t("bulgarian"),
         value: "bg"
       },
       {
-        key: "English US",
+        key: $t("english_us"),
         value: "en-US"
       },
       {
-        key: "Русский",
+        key: $t("russian"),
         value: "ru"
       }
     ]

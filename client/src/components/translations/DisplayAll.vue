@@ -12,10 +12,6 @@
       :columns="columns"
       row-key="name"
       :pagination="{ rowsPerPage: 20, descending: true }"
-      v-if="
-        translation.displingItems.length > 0 ||
-        translation.displayWithoutAnyLangItems.length > 0
-      "
     >
       <template v-slot:body="props">
         <q-tr :props="props" @click="openDialog(props.row.name)">
@@ -42,6 +38,8 @@ export default {
     const $t = i18n.global.t;
     const env = EnvStore();
     const translation = TranslationStore();
+
+    console.log(0);
 
     if (translation.tab != "bg")
       translation.getItemsWithout(translation.tab, null);

@@ -3,35 +3,36 @@
     v-model="translation.tab"
     no-caps
     inline-label
-    class="bg-grey-2 text-primary"
+    class="bg-grey-2"
+    active-class="text-primary"
   >
     <q-tab
-      name="bg"
+      v-for="(item, index) in env.languages"
+      :key="index"
+      :name="item.value"
       icon="language"
-      :label="$t('bulgarian')"
-      @click="router.push({ query: { lang: 'bg' } })"
-    />
-    <q-tab
-      name="en-US"
-      icon="language"
-      :label="$t('english_us')"
-      @click="router.push({ query: { lang: 'en-US' } })"
+      :label="$t(`${item.key}`)"
+      @click="router.push({ query: { lang: item.value } })"
     />
   </q-tabs>
   <q-tab-panels v-model="translation.tab" animated>
-    <q-tab-panel name="bg">
-      <display-all />
-    </q-tab-panel>
-    <q-tab-panel name="en-US">
+    <q-tab-panel
+      v-for="(item, index) in env.languages"
+      :key="index"
+      :name="item.value"
+    >
       <display-all />
     </q-tab-panel>
   </q-tab-panels>
 </template>
 
 <script>
-import DisplayAll from "src/components/translations/DisplayAll.vue";
-import { TranslationStore } from "src/stores/translation";
 import { useRoute, useRouter } from "vue-router";
+
+import { EnvStore } from "src/stores/env";
+import { TranslationStore } from "src/stores/translation";
+
+import DisplayAll from "src/components/translations/DisplayAll.vue";
 
 export default {
   components: {
@@ -41,12 +42,13 @@ export default {
     const translation = TranslationStore();
     const router = useRouter();
     const route = useRoute();
+    const env = EnvStore();
 
     if (route.query.lang) {
       translation.tab = route.query.lang;
     }
 
-    return { translation, router };
+    return { env, translation, router };
   },
 };
 </script>

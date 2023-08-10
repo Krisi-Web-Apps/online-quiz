@@ -118,7 +118,7 @@ export default {
           }, 500);
           translation.getItems();
         } else {
-          translation.getItemsWithout("en-US");
+          translation.getItemsWithout(translation.tab);
         }
 
         env.dialogs.translations.saving = false;

@@ -24,6 +24,17 @@
           {{ $t("translations") }}
         </q-item-section>
       </q-item>
+      <q-item clickable v-ripple @click="router.push({ name: 'categories' })">
+        <q-item-section avatar>
+          <q-icon
+            :color="isActive('categories') ? 'primary' : null"
+            name="category"
+          />
+        </q-item-section>
+        <q-item-section :class="getClasses('categories')">
+          {{ $t("categories") }}
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-drawer>
 </template>

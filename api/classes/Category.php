@@ -52,6 +52,13 @@ class Category {
     return $items[0];
   }
   
+  public static function getItems($lang) {
+    global $db;
+    $params = array(":lang" => $lang);
+    $items = $db->select("SELECT * FROM categories WHERE lang = :lang;", $params);
+    return $items;
+  }
+  
   public function create() {
     global $db;
     $data = array(

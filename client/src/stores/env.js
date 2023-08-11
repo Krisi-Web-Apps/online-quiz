@@ -14,6 +14,9 @@ export const EnvStore = defineStore("env", {
       translations: {
         saving: false,
         isSecondLang: false,
+      },
+      categories: {
+        saving: false,
       }
     },
     layout: {

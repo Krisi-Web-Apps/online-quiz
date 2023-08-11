@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $dataToInsert = array(
     "name" => $data["name"],
     "slug" => $data["slug"],
-    "desc" => isset($data["desc"]) ? $data["desc"] : null,
+    "desc" => isset($data["description"]) ? $data["description"] : null,
     "lang" => isset($data["lang"]) ? $data["lang"] : null
   );
 
@@ -41,6 +41,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $fetchedCategory = $category->getItem();
 
   $response->setData($fetchedCategory);
+  $response->sendJson();
+} else if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+  if (isset($_GET["lang"]) == FALSE) {
+    $response->sendError("invalid_lang_parameter", Response::HTTP_BAD_REQUEST);
+  }
+
+  $lang = $_GET["lang"];
+  $categories = Category::getItems($lang);
+
+  $response->setData($categories);
   $response->sendJson();
 } else {
   $response->sendError("Method not allowed", Response::HTTP_METHOD_NOT_ALLOWED);

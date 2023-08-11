@@ -1,29 +1,27 @@
 <template>
   <div>
-    <q-table
-      flat
-      bordered
-      dense
+    <custom-table
       :rows="
         translation.tab == 'bg'
           ? translation.displingItems
           : translation.displayWithoutAnyLangItems
       "
       :columns="columns"
-      row-key="name"
-      :pagination="{ rowsPerPage: 20, descending: true }"
+      :loading="translation.loading"
+      :slots="[{ name: 'body-cell-options', scope: 'props' }]"
     >
-      <template v-slot:body="props">
-        <q-tr :props="props" @click="openDialog(props.row.name)">
-          <q-td key="name" :props="props">
-            {{ props.row.name }}
-          </q-td>
-          <q-td key="text" :props="props">
-            {{ props.row.text }}
-          </q-td>
-        </q-tr>
+      <template v-slot:body-cell-options="props">
+        <q-td class="text-right">
+          <q-btn
+            fab-mini
+            flat
+            icon="add"
+            color="primary"
+            @click="openDialog(props.scope.row.name)"
+          />
+        </q-td>
       </template>
-    </q-table>
+    </custom-table>
   </div>
 </template>
 
@@ -33,14 +31,18 @@ import { i18n } from "src/boot/i18n";
 import { EnvStore } from "src/stores/env";
 import { TranslationStore } from "src/stores/translation";
 
+import CustomTable from "src/components/common/CustomTable.vue";
+
 export default {
+  components: {
+    CustomTable,
+  },
   setup() {
     const $t = i18n.global.t;
     const env = EnvStore();
     const translation = TranslationStore();
 
-    if (translation.tab != "bg")
-      translation.getItemsWithout(translation.tab, null);
+    if (translation.tab != "bg") translation.getItemsWithout(translation.tab, null);
     else translation.getItems();
 
     const functions = {
@@ -76,6 +78,12 @@ export default {
           field: (row) => row.text,
           format: (val) => `${val}`,
           sortable: true,
+        },
+        {
+          name: "options",
+          required: true,
+          label: this.$t("options"),
+          align: "right",
         },
       ],
     };

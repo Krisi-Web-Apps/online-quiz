@@ -1,14 +1,21 @@
 <template>
-  <div class="container">
-    <div class="flex justify-between items-center">
-      <h1 class="text-h4 text-center">{{ $t("translations") }}</h1>
-      <q-btn :label="$t('add_translation')" color="primary" @click="createOpen" />
+  <q-page padding class="q-pt-none">
+    <div class="container">
+      <div class="flex justify-between items-center">
+        <h1 class="text-h4 text-center">{{ $t("translations") }}</h1>
+        <q-btn
+          :label="$t('add_translation')"
+          icon="add"
+          color="primary"
+          @click="createOpen"
+        />
+      </div>
     </div>
-  </div>
-  <q-dialog v-model="env.dialogs.translations.saving" @hide="onClose">
-    <save-dialog />
-  </q-dialog>
-  <language-tabs />
+    <q-dialog v-model="env.dialogs.translations.saving" @hide="onClose">
+      <save-dialog />
+    </q-dialog>
+    <language-tabs />
+  </q-page>
 </template>
 
 <script>
@@ -33,7 +40,7 @@ export default {
       },
       createOpen() {
         env.dialogs.translations.saving = true;
-        translation.item = { lang: translation.tab }
+        translation.item = { lang: translation.tab };
       },
     };
 

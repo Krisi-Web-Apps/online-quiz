@@ -64,18 +64,17 @@
     <q-card-actions class="text-white bg-secondary text-center">
       <q-btn
         flat
+        :label="!translation.item.id ? $t('add_translation') : $t('edit_translation')"
+        icon="add"
         :disable="translation.loading"
         :loading="translation.loading"
         no-caps
         @click="$.refs.translationForm.submit()"
-      >
-        {{
-          !translation.item.id ? $t("add_translation") : $t("edit_translation")
-        }}
-      </q-btn>
+      />
       <q-btn
         flat
         :label="$t('cancel')"
+        icon="close"
         :disable="translation.loading"
         no-caps
         v-close-popup

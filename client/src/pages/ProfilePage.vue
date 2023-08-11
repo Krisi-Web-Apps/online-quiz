@@ -1,8 +1,10 @@
 <template>
-  <div class="container">
-    <h1 class="text-h4 text-center">{{ $t("my_profile") }}</h1>
-  </div>
-  <tab-panels />
+  <q-page padding class="q-pt-none">
+    <div class="container">
+      <h1 class="text-h4 text-center">{{ $t("my_profile") }}</h1>
+    </div>
+    <tab-panels />
+  </q-page>
 </template>
 
 <script>
@@ -12,8 +14,6 @@ export default {
   components: {
     TabPanels,
   },
-  setup() {
-
-  }
+  setup() {},
 };
 </script>

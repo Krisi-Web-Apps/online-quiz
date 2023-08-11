@@ -15,8 +15,17 @@
       @click="router.push({ query: { lang: item.value } })"
     />
   </q-tabs>
+  <div
+    v-if="translation.tab != 'bg' && translation.displayWithoutAnyLangItems.length > 0"
+    class="q-mt-md"
+  >
+    <div class="text-white bg-secondary text-subtitle1 q-pa-md rounded-borders">
+      {{ $t("translations_to_add_for_this_lang") }}
+    </div>
+  </div>
   <q-tab-panels v-model="translation.tab" animated>
     <q-tab-panel
+      class="q-pa-none q-mt-md"
       v-for="(item, index) in env.languages"
       :key="index"
       :name="item.value"

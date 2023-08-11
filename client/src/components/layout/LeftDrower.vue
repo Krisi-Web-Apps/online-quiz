@@ -2,7 +2,7 @@
   <q-drawer
     side="left"
     bordered
-    v-model="isDrowerOpen"
+    v-model="env.layout.leftDrower"
     class="text-black bg-grey-2"
   >
     <h2 class="text-h6 q-ml-lg">{{ $t("online_quiz") }}</h2>

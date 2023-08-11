@@ -1,14 +1,21 @@
 <template>
-  <div class="container">
-    <div class="flex justify-between items-center">
-      <h1 class="text-h4 text-center">{{ $t("categories") }}</h1>
-      <q-btn :label="$t('add_category')" color="primary" @click="createOpen" />
+  <q-page padding class="q-pt-none">
+    <div class="container">
+      <div class="flex justify-between items-center">
+        <h1 class="text-h4 text-center">{{ $t("categories") }}</h1>
+        <q-btn
+          :label="$t('add_category')"
+          icon="add"
+          color="primary"
+          @click="createOpen"
+        />
+      </div>
     </div>
+    <q-dialog v-model="env.dialogs.categories.saving">
+      <save-dialog />
+    </q-dialog>
     <display-items />
-  </div>
-  <q-dialog v-model="env.dialogs.categories.saving">
-    <save-dialog />
-  </q-dialog>
+  </q-page>
 </template>
 
 <script>
@@ -31,7 +38,7 @@ export default {
 
     const functions = {
       createOpen() {
-        category.item = { lang: user.me.lang }
+        category.item = { lang: user.me.lang };
         env.dialogs.categories.saving = true;
       },
     };

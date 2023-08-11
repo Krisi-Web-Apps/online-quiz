@@ -1,10 +1,10 @@
 <?php
 
-require "middlewares/is-authenticated.php";
-
 $response = new Response();
 
-if ($_SERVER["REQUEST_METHOD"] = "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+  require "middlewares/is-authenticated.php";
 
   $jsonData = file_get_contents("php://input");
   $data = json_decode($jsonData, true);
@@ -39,4 +39,21 @@ if ($_SERVER["REQUEST_METHOD"] = "POST") {
   if (empty($data["id"])) $response->setStatusCode(Response::HTTP_CREATED);
   else $response->setStatusCode(Response::HTTP_OK);
   $response->sendJson();
+} if ($_SERVER["REQUEST_METHOD"] == "GET") {
+
+  if (isset($_GET["id"])) {
+    $id = $_GET["id"];
+  
+    $item = Test::getItem($id);
+  
+    $response->setData($item);
+    $response->sendJson();
+  }
+
+  $items = Test::getItems();
+  
+  $response->setData($items);
+  $response->sendJson();
+} else {
+  $response->sendError("Method Not Allowed", Response::HTTP_METHOD_NOT_ALLOWED);
 }

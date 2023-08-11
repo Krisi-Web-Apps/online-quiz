@@ -79,24 +79,24 @@ class Test
 
   public function edit() {
     global $db;
-    $params = array(":id" => $this->id);
     $data = array(
       "name" => $this->name,
       "slug" => $this->slug,
       "description" => $this->desc,
       "category_id" => $this->category_id,
     );
-    $db->update("tests", $data, $params);
+    $id = $this->getId();
+    $db->update("tests", $data, "id = $id");
   }
 
-  public function getItem($id) {
+  public static function getItem($id) {
     global $db;
     $params = array(":id" => $id);
     $items = $db->select("SELECT * FROM tests WHERE id = :id;", $params);
     return $items[0];
   }
 
-  public function getItems() {
+  public static function getItems() {
     global $db;
     $items = $db->select("SELECT * FROM tests;");
     return $items;

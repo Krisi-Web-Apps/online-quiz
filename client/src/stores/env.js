@@ -1,6 +1,8 @@
 import { defineStore } from "pinia";
 import { Notify } from 'quasar';
+
 import { i18n } from 'src/boot/i18n';
+import { alphabet } from 'src/constants';
 
 const $t = i18n.global.t;
 
@@ -61,6 +63,26 @@ export const EnvStore = defineStore("env", {
         message,
         actions: [{ icon: 'close', color: 'white' }]
       });
+    },
+    bulgarianToLatin(text) {
+      const words = text.split(/\s+/);
+
+      const convertedWords = words.map(word => {
+        const lowercaseWord = word.toLowerCase();
+        const convertedChars = [];
+        for (let i = 0; i < lowercaseWord.length; i++) {
+          const char = lowercaseWord[i];
+          if (alphabet[char]) {
+            convertedChars.push(alphabet[char]);
+          } else {
+            convertedChars.push(char);
+          }
+        }
+
+        return convertedChars.join("");
+      });
+
+      return convertedWords.join("-");
     }
   },
 });

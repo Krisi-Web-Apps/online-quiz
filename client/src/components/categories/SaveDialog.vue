@@ -11,13 +11,14 @@
           <q-input
             filled
             autofocus
+            lazy-rules
             v-model="category.item.name"
             :label="$t('name')"
             :disable="category.loading"
-            lazy-rules
             :rules="[
               (val) => (val && val.length > 0) || $t('this_field_is_required'),
             ]"
+            @update:model-value="generateSlug"
           >
             <template v-slot:prepend>
               <q-icon name="category" />
@@ -105,6 +106,7 @@
 </template>
 
 <script>
+import { i18n } from "src/boot/i18n";
 import { CategoryStore } from "src/stores/category";
 import { EnvStore } from "src/stores/env";
 
@@ -112,15 +114,20 @@ export default {
   setup() {
     const env = EnvStore();
     const category = CategoryStore();
+    const $t = i18n.global.t;
 
     const functions = {
       callback() {
         env.dialogs.categories.saving = false;
-        env.ts("successful_created_category");
+        env.ts($t("successful_created_category"));
       },
       submit() {
         category.saveItem(functions.callback);
       },
+      generateSlug(text) {
+        const latinText = env.bulgarianToLatin(text);
+        category.item.slug = latinText;
+      }
     };
 
     return { env, category, ...functions };

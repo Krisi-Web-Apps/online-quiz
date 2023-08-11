@@ -20,6 +20,7 @@ const routes = [
       },
       {
         path: "categories",
+        meta: { previousRoute: null },
         name: "categories",
         component: () => import("pages/CategoriesPage.vue"),
       },

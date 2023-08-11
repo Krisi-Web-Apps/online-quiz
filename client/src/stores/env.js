@@ -37,7 +37,7 @@ export const EnvStore = defineStore("env", {
         key: $t("russian"),
         value: "ru"
       }
-    ]
+    ],
   }),
   actions: {
     validateEmail(email) {
@@ -83,6 +83,15 @@ export const EnvStore = defineStore("env", {
       });
 
       return convertedWords.join("-");
+    },
+    transformArrayToObject(array) {
+      const result = {};
+
+      for (const item of array) {
+        result[item.value] = item.key;
+      }
+
+      return result;
     }
   },
 });

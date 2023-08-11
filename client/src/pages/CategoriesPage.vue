@@ -4,6 +4,7 @@
       <h1 class="text-h4 text-center">{{ $t("categories") }}</h1>
       <q-btn :label="$t('add_category')" color="primary" @click="createOpen" />
     </div>
+    <display-items />
   </div>
   <q-dialog v-model="env.dialogs.categories.saving">
     <save-dialog />
@@ -11,15 +12,17 @@
 </template>
 
 <script>
-import { CategoryStore } from "src/stores/category";
 import { EnvStore } from "src/stores/env";
+import { UserStore } from "src/stores/user";
+import { CategoryStore } from "src/stores/category";
 
 import SaveDialog from "src/components/categories/SaveDialog.vue";
-import { UserStore } from "src/stores/user";
+import DisplayItems from "src/components/categories/DisplayItems.vue";
 
 export default {
   components: {
     SaveDialog,
+    DisplayItems,
   },
   setup() {
     const env = EnvStore();

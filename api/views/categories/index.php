@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category->edit();
   }
 
-  $fetchedCategory = $category->getItem();
+  $fetchedCategory = Category::getItem($category->getId());
 
   $response->setData($fetchedCategory);
   $response->sendJson();
@@ -49,7 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $lang = $_GET["lang"];
-  $categories = Category::getItems($lang);
+  $categories = Category::getItems();
 
   $response->setData($categories);
   $response->sendJson();

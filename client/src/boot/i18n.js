@@ -1,9 +1,27 @@
 import { boot } from "quasar/wrappers";
 import { createI18n } from "vue-i18n";
 import axios from "axios";
-const translations = localStorage.getItem("translations")
-  ? JSON.parse(localStorage.getItem("translations"))
-  : (await axios.get("http://localhost/translations/all")).data;
+
+let translations;
+
+(async () => {
+  const storedTranslations = localStorage.getItem("translations");
+
+  if (storedTranslations) {
+    translations = JSON.parse(storedTranslations);
+  } else {
+    try {
+      const response = await axios.get("http://localhost/translations/all");
+      translations = response.data;
+      localStorage.setItem("translations", JSON.stringify(translations));
+    } catch (error) {
+      if (error.message === "Network Error") {
+        env.te("Network Error");
+      }
+    }
+  }
+})();
+
 // if (!localStorage.getItem("translations"))
 //   localStorage.setItem("translations", JSON.stringify(translations));
 

@@ -37,7 +37,11 @@ class Category {
     $this->error = $error;
   }
 
-  public function setId($id) {
+  public function getId() {
+    return $this->id;
+  }
+
+  private function setId($id) {
     $this->id = $id;
   }
 
@@ -45,17 +49,16 @@ class Category {
     return $this->error;
   }
 
-  public function getItem() {
+  public static function getItem($id) {
     global $db;
-    $params = array(":id" => $this->id);
+    $params = array(":id" => $id);
     $items = $db->select("SELECT * FROM categories WHERE id = :id;", $params);
     return $items[0];
   }
   
-  public static function getItems($lang) {
+  public static function getItems() {
     global $db;
-    $params = array(":lang" => $lang);
-    $items = $db->select("SELECT * FROM categories WHERE lang = :lang;", $params);
+    $items = $db->select("SELECT * FROM categories");
     return $items;
   }
   
@@ -68,7 +71,7 @@ class Category {
       "lang" => $this->lang,
     );
     $db->insert("categories", $data);
-    $this->id = $db->lastInsertedId();
+    $this->setId($db->lastInsertedId());
   }
 
   public function edit() {
@@ -79,7 +82,7 @@ class Category {
       "description" => $this->desc,
       "lang" => $this->lang,
     );
-    $id = $this->id;
+    $id = $this->getId();
     $db->update("categories", $data, "id = $id;");
   }
 }

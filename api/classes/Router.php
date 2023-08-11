@@ -81,8 +81,9 @@ class Router
       $handler = $this->notFoundHandler;
       $handler();
     } else {
-      // Default 404 page
-      echo "404 Page Not Found";
+      $response = new Response();
+      $response->setStatusCode(Response::HTTP_NOT_FOUND);
+      $response->sendError("page_not_found");
     }
   }
 }

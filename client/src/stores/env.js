@@ -60,7 +60,7 @@ export const EnvStore = defineStore("env", {
         timeout: 2500,
         type: "negative",
         progress: true,
-        message,
+        message: $t(message),
         actions: [{ icon: 'close', color: 'white' }]
       });
     },

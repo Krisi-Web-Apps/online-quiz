@@ -36,6 +36,18 @@ export const CategoryStore = defineStore("category", {
         if (cb) cb(err.response.status, err.response.data.error);
       })
       .finally(() => this.loading = false);
+    },
+    getItem(cb) {
+      this.loading = true;
+      api.get(`${this.url}/${this.item.id}`)
+      .then((res) => {
+        this.item = res.data;
+        if (cb) cb(res.status);
+      })
+      .catch((err) => {
+        if (cb) cb(err.response.status, err.response.data.error);
+      })
+      .finally(() => this.loading = false);
     }
   },
 });

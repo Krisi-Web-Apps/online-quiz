@@ -119,7 +119,8 @@ export default {
     const functions = {
       callback() {
         env.dialogs.categories.saving = false;
-        env.ts($t("successful_created_category"));
+        env.ts();
+        category.getItems();
       },
       submit() {
         category.saveItem(functions.callback);

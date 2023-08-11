@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { Notify } from 'quasar';
+import { Notify } from "quasar";
 
-import { i18n } from 'src/boot/i18n';
-import { alphabet } from 'src/constants';
+import { i18n } from "src/boot/i18n";
+import { alphabet } from "src/constants";
 
 const $t = i18n.global.t;
 
@@ -19,7 +19,7 @@ export const EnvStore = defineStore("env", {
       },
       categories: {
         saving: false,
-      }
+      },
     },
     layout: {
       leftDrower: true,
@@ -27,16 +27,16 @@ export const EnvStore = defineStore("env", {
     languages: [
       {
         key: $t("bulgarian"),
-        value: "bg"
+        value: "bg",
       },
       {
         key: $t("english_us"),
-        value: "en-US"
+        value: "en-US",
       },
       {
         key: $t("russian"),
-        value: "ru"
-      }
+        value: "ru",
+      },
     ],
   }),
   actions: {
@@ -46,28 +46,28 @@ export const EnvStore = defineStore("env", {
     },
     ts(message = $t("save_changes_successfuly")) {
       Notify.create({
-        position: 'bottom-left',
+        position: "bottom-left",
         timeout: 2500,
         type: "positive",
         progress: true,
         message,
-        actions: [{ icon: 'close', color: 'white' }]
+        actions: [{ icon: "close", color: "white" }],
       });
     },
     te(message = $t("something_went_wrong")) {
       Notify.create({
-        position: 'bottom-left',
+        position: "bottom-left",
         timeout: 2500,
         type: "negative",
         progress: true,
         message: $t(message),
-        actions: [{ icon: 'close', color: 'white' }]
+        actions: [{ icon: "close", color: "white" }],
       });
     },
     bulgarianToLatin(text) {
       const words = text.split(/\s+/);
 
-      const convertedWords = words.map(word => {
+      const convertedWords = words.map((word) => {
         const lowercaseWord = word.toLowerCase();
         const convertedChars = [];
         for (let i = 0; i < lowercaseWord.length; i++) {
@@ -92,6 +92,6 @@ export const EnvStore = defineStore("env", {
       }
 
       return result;
-    }
+    },
   },
 });

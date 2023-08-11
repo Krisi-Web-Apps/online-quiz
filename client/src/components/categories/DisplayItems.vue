@@ -1,38 +1,37 @@
 <template>
-  <div>
-    <q-table
-      flat
-      bordered
-      dense
-      :rows="category.items"
-      :columns="columns"
-      row-key="name"
-      :pagination="{ rowsPerPage: 20, descending: true }"
-      :loading="category.loading"
-    >
+  <custom-table
+    :rows="category.items"
+    :columns="columns"
+    :loading="category.loading"
+    :slots="[
+      { name: 'body-cell-lang', scope: 'props' },
+      { name: 'body-cell-options', scope: 'props' },
+    ]"
+  >
     <template v-slot:body-cell-lang="props">
-      <q-td :props="props">
-        {{ env.transformArrayToObject(env.languages)[props.row.lang] }}
+      <q-td>
+        {{ env.transformArrayToObject(env.languages)[props.scope.row.lang] }}
       </q-td>
     </template>
-    <template v-slot:body="props">
-      <q-tr :props="props" @click="openDialog(props.row.id)">
-        <q-td key="name" :props="props">
-          {{ props.row.name }}
-        </q-td>
-        <q-td key="slug" :props="props">
-          {{ props.row.slug }}
-        </q-td>
-        <q-td key="description" :props="props">
-          {{ props.row.description }}
-        </q-td>
-        <q-td key="lang" :props="props">
-          {{ env.transformArrayToObject(env.languages)[props.row.lang] }}
-        </q-td>
-      </q-tr>
+    <template v-slot:body-cell-options="props">
+      <q-td class="text-right">
+        <q-btn
+          fab-mini
+          flat
+          icon="edit"
+          color="primary"
+          @click="openDialog(props.scope.row.id)"
+        />
+        <q-btn
+          fab-mini
+          flat
+          icon="delete"
+          color="negative"
+          @click="confirmDeleteItem(props.scope.row.id)"
+        />
+      </q-td>
     </template>
-  </q-table>
-  </div>
+  </custom-table>
 </template>
 
 <script>
@@ -44,10 +43,17 @@ import { EnvStore } from "src/stores/env";
 import { CategoryStore } from "src/stores/category";
 import { UserStore } from "src/stores/user";
 
+import CustomTable from "src/components/common/CustomTable.vue";
+import { useQuasar } from "quasar";
+
 export default {
+  components: {
+    CustomTable,
+  },
   setup() {
     const route = useRoute();
     const $t = i18n.global.t;
+    const $q = useQuasar();
 
     const env = EnvStore();
     const user = UserStore();
@@ -60,9 +66,17 @@ export default {
 
     const functions = {
       callback(status, message) {
-        console.log(status);
         if (status == 200) {
           env.dialogs.categories.saving = true;
+          category.getItems();
+        } else {
+          env.te(message);
+        }
+      },
+      deletedCallback(status, message) {
+        if (status == 200) {
+          env.ts($t("successful_deleted"));
+          category.getItems();
         } else {
           env.te(message);
         }
@@ -70,8 +84,19 @@ export default {
       openDialog(id) {
         category.item.id = id;
         category.getItem(functions.callback);
-      }
-    }
+      },
+      confirmDeleteItem(id) {
+        $q.dialog({
+          title: $t("confirm"),
+          message: $t("delete_confimation"),
+          color: "negative",
+          cancel: true,
+        }).onOk(() => {
+          category.item.id = id;
+          category.deleteItem(functions.deletedCallback);
+        });
+      },
+    };
 
     return { env, category, ...functions };
   },
@@ -113,6 +138,12 @@ export default {
           field: (row) => row.lang,
           format: (val) => `${val}`,
           sortable: true,
+        },
+        {
+          name: "options",
+          required: true,
+          label: this.$t("options"),
+          align: "right",
         },
       ],
     };

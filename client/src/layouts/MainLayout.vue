@@ -25,6 +25,6 @@ export default defineComponent({
     NavigationBar,
     LeftDrower,
     UserDialogs,
-  },
+  }
 });
 </script>

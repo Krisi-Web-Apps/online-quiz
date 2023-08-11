@@ -41,7 +41,7 @@ class Category {
     return $this->id;
   }
 
-  private function setId($id) {
+  public function setId($id) {
     $this->id = $id;
   }
 
@@ -54,6 +54,12 @@ class Category {
     $params = array(":id" => $id);
     $items = $db->select("SELECT * FROM categories WHERE id = :id;", $params);
     return $items[0];
+  }
+
+  public static function deleteItem($id) {
+    global $db;
+    $params = array(":id" => $id);
+    $db->delete("categories", "id = :id;", $params);
   }
   
   public static function getItems() {

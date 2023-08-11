@@ -44,11 +44,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $response->sendJson();
 } else if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
-  if (isset($_GET["lang"]) == FALSE) {
-    $response->sendError("invalid_lang_parameter", Response::HTTP_BAD_REQUEST);
-  }
+  // if (isset($_GET["lang"]) == FALSE) {
+  //   $response->sendError("invalid_lang_parameter", Response::HTTP_BAD_REQUEST);
+  // }
 
-  $lang = $_GET["lang"];
+  // $lang = $_GET["lang"];
   $categories = Category::getItems();
 
   $response->setData($categories);

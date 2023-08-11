@@ -24,3 +24,14 @@ CREATE TABLE `categories` (
   `lang` VARCHAR(20) NOT NULL DEFAULT `bg`,
   PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE `tests` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `slug` VARCHAR(100) NOT NULL,
+  `description` TEXT NOT NULL,
+  `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `category_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`category_id`) REFERENCES categories(`id`)
+) ENGINE = InnoDB;

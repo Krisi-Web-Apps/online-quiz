@@ -24,6 +24,12 @@ const routes = [
         name: "categories",
         component: () => import("pages/CategoriesPage.vue"),
       },
+      {
+        path: "tests",
+        meta: { previousRoute: null },
+        name: "tests",
+        component: () => import("pages/TestsPage.vue"),
+      },
     ],
   },
 

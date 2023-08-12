@@ -30,6 +30,7 @@ CREATE TABLE `tests` (
   `name` VARCHAR(100) NOT NULL,
   `slug` VARCHAR(100) NOT NULL,
   `description` TEXT NOT NULL,
+  `lang` VARCHAR(20) NOT NULL DEFAULT `bg`,
   `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `category_id` INT NOT NULL,
   PRIMARY KEY (`id`),

@@ -4,17 +4,19 @@ class Test
 {
   private $name;
   private $slug;
-  private $desc;
+  private $description;
+  private $lang;
   private $category_id;
   private $id;
   private $error;
 
-  public function __construct($name, $slug, $category_id, $desc = null)
+  public function __construct($name, $slug, $category_id, $lang, $description = null)
   {
-    $this->setCategoryId($category_id);
     $this->setName($name);
     $this->setSlug($slug);
-    $this->setDesc($desc);
+    $this->setCategoryId($category_id);
+    $this->setLang($lang);
+    $this->setDescription($description);
   }
 
   private function setName($value) {
@@ -33,11 +35,19 @@ class Test
     $this->setError(null);
   }
 
-  private function setDesc($value) {
+  private function setLang($value) {
     if (empty($value)) {
       $this->setError("all_fields_are_required");
     }
-    $this->desc = $value;
+    $this->lang = $value;
+    $this->setError(null);
+  }
+
+  private function setDescription($value) {
+    if (empty($value)) {
+      $this->setError("all_fields_are_required");
+    }
+    $this->description = $value;
     $this->setError(null);
   }
 
@@ -70,7 +80,8 @@ class Test
     $data = array(
       "name" => $this->name,
       "slug" => $this->slug,
-      "description" => $this->desc,
+      "description" => $this->description,
+      "lang" => $this->lang,
       "category_id" => $this->category_id,
     );
     $db->insert("tests", $data);
@@ -82,7 +93,8 @@ class Test
     $data = array(
       "name" => $this->name,
       "slug" => $this->slug,
-      "description" => $this->desc,
+      "description" => $this->description,
+      "lang" => $this->lang,
       "category_id" => $this->category_id,
     );
     $id = $this->getId();
@@ -100,5 +112,10 @@ class Test
     global $db;
     $items = $db->select("SELECT * FROM tests;");
     return $items;
+  }
+
+  public static function deleteItem($id) {
+    global $db;
+    $db->delete("tests", "id = $id");
   }
 }

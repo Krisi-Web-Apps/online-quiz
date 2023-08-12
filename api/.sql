@@ -36,3 +36,11 @@ CREATE TABLE `tests` (
   PRIMARY KEY (`id`),
   FOREIGN KEY(`category_id`) REFERENCES categories(`id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE `questions` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(1000) NOT NULL,
+  `answers` JSON NOT NULL,
+  `lang` VARCHAR(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB;

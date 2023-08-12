@@ -11,7 +11,7 @@
             filled
             v-model="user.credentials.email"
             :label="$t('email')"
-            :hint="$t('enter_a_valid_email')"
+            :hint="$t('enter_a_valid_email_address')"
             autofocus
             :disable="user.loading"
             lazy-rules

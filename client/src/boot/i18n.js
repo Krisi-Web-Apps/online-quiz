@@ -5,7 +5,11 @@ import axios from "axios";
 
 const i18n = createI18n({
   locale: localStorage.getItem("locale") || "bg",
-  messages: ((await axios.get("http://localhost/translations/all")).data),
+  messages: (
+    await axios.get("http://localhost/translations", {
+      params: { as_key_value_pairs: true },
+    })
+  ).data,
 });
 
 export default boot(async ({ app }) => {

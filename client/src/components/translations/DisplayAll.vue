@@ -19,6 +19,13 @@
             color="primary"
             @click="openDialog(props.scope.row.name)"
           />
+          <q-btn
+            fab-mini
+            flat
+            icon="delete"
+            color="negative"
+            @click="onClose(props.scope.row.id)"
+          />
         </q-td>
       </template>
     </custom-table>
@@ -26,6 +33,8 @@
 </template>
 
 <script>
+import { useQuasar } from "quasar";
+
 import { i18n } from "src/boot/i18n";
 
 import { EnvStore } from "src/stores/env";
@@ -39,6 +48,7 @@ export default {
   },
   setup() {
     const $t = i18n.global.t;
+    const $q = useQuasar();
     const env = EnvStore();
     const translation = TranslationStore();
 
@@ -53,6 +63,26 @@ export default {
         };
         env.dialogs.translations.saving = true;
         env.dialogs.translations.isSecondLang = true;
+      },
+      deletedCallback(status, message) {
+        if (status == 204) {
+          env.ts($t("successful_deleted"));
+          if (translation.tab != "bg") translation.getItemsWithout(translation.tab, null);
+          else translation.getItems();
+        } else {
+          env.te(message);
+        }
+      },
+      onClose(id) {
+        $q.dialog({
+          title: $t("confirm"),
+          message: $t("delete_confimation"),
+          color: "negative",
+          cancel: true,
+        }).onOk(() => {
+          translation.item.id = id;
+          translation.deleteItem(functions.deletedCallback);
+        });
       },
     };
 

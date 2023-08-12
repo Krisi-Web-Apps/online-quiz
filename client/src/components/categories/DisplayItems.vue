@@ -36,6 +36,7 @@
 
 <script>
 import { useRoute } from "vue-router";
+import { useQuasar } from "quasar";
 
 import { i18n } from "src/boot/i18n";
 
@@ -44,7 +45,6 @@ import { CategoryStore } from "src/stores/category";
 import { UserStore } from "src/stores/user";
 
 import CustomTable from "src/components/common/CustomTable.vue";
-import { useQuasar } from "quasar";
 
 export default {
   components: {

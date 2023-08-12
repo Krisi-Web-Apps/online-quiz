@@ -25,7 +25,7 @@ export default {
     }
 
     function getTranslations() {
-      translation.getItemsByUserLang(user.lang);
+      translation.getItems();
       if (route.name == "categories") {
         category.item.lang = user.me.lang;
         category.getItems();

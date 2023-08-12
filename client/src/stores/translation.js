@@ -44,7 +44,7 @@ export const TranslationStore = defineStore("translation", {
     getItems(cb) {
       this.loading = true;
       api
-        .get(`${this.url}/admin`, {
+        .get(`${this.url}`, {
           params: {
             lang: this.tab
           }
@@ -61,7 +61,7 @@ export const TranslationStore = defineStore("translation", {
     getItemsWithout(withoutLang, cb) {
       this.loading = true;
       api
-        .get(`${this.url}/admin`, {
+        .get(`${this.url}`, {
           params: {
             without_lang: withoutLang,
           }
@@ -74,6 +74,22 @@ export const TranslationStore = defineStore("translation", {
           if (cb) cb(err.response.status, err.response.data.error);
         })
         .finally(() => this.loading = false);
-    }
+    },
+    deleteItem(cb) {
+      this.loading = true;
+      api
+        .delete(`${this.url}`, {
+          params: {
+            id: this.item.id,
+          }
+        })
+        .then((res) => {
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => (this.loading = false));
+    },
   },
 });

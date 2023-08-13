@@ -64,7 +64,7 @@ class Category {
   
   public static function getItems() {
     global $db;
-    $items = $db->select("SELECT * FROM categories");
+    $items = $db->select("SELECT name, slug, lang FROM categories");
     return $items;
   }
   

@@ -70,6 +70,21 @@
           </div>
         </div>
         <div class="q-mb-md">
+          <q-input
+            type="textarea"
+            filled
+            autofocus
+            :label="$t('interested_fact')"
+            :loading="question.loading"
+            :disable="question.loading"
+            v-model="question.item.fact"
+          >
+            <template v-slot:prepend>
+              <q-icon name="arrow_forward_ios" />
+            </template>
+          </q-input>
+        </div>
+        <div class="q-mb-md">
           <q-select
             filled
             v-model="question.item.lang"

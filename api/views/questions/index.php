@@ -55,7 +55,8 @@ if (
     $data["title"],
     json_encode($data["answers"]),
     $data["test_id"],
-    $data["lang"]
+    $data["lang"],
+    $data["fact"]
   );
 
   if (isset($data["id"]) == FALSE) {

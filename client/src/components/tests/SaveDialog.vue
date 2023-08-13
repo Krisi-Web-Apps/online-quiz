@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
     <q-card-section>
-      <q-form ref="testForm" @submit="submit" @keydown.enter="submit">
+      <q-form ref="testForm" @submit="submit" @keydown.shift.enter="submit">
         <div class="q-mb-md">
           <q-input
             filled

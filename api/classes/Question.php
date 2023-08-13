@@ -4,15 +4,17 @@ class Question {
   private $id;
   private $title;
   private $answers = [];
+  private $fact;
   private $testId;
   private $lang;
   private $error;
 
-  public function __construct($title, $answers, $testId, $lang) {
+  public function __construct($title, $answers, $testId, $lang, $fact) {
     $this->setTitle($title);
     $this->setAnswers($answers);
     $this->setTestId($testId);
     $this->setLang($lang);
+    $this->fact = $fact;
   }
   
   private function setTitle($value) {
@@ -51,10 +53,6 @@ class Question {
     $this->lang = $value;
   }
 
-  private function setError($value) {
-    $this->error = $value;
-  }
-
   public function setId($value) {
     if (empty($value)) {
       $this->error = "invalid_id";
@@ -77,6 +75,7 @@ class Question {
     $data = array(
       "title" => $this->title,
       "answers" => $this->answers,
+      "fact" => $this->fact,
       "test_id" => $this->testId,
       "lang" => $this->lang,
     );
@@ -89,6 +88,7 @@ class Question {
     $data = array(
       "title" => $this->title,
       "answers" => $this->answers,
+      "fact" => $this->fact,
       "test_id" => $this->testId,
       "lang" => $this->lang,
     );
@@ -107,7 +107,20 @@ class Question {
 
   public static function getItems() {
     global $db;
-    $items = $db->select("SELECT q.*, t.name AS test_title FROM questions AS q, tests AS t;");
+    $items = $db->select(
+      "SELECT
+        q.id,
+        q.title,
+        q.answers,
+        t.name AS test_title,
+        q.lang,
+        q.test_id
+      FROM
+        questions AS q,
+        tests AS t
+      WHERE
+        q.test_id = t.id;"
+    );
     return $items;
   }
 

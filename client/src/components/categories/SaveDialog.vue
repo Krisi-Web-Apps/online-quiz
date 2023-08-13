@@ -1,5 +1,5 @@
 <template>
-  <q-card style="width: 700px; max-width: 80vw">
+  <q-card class="medium-dialog">
     <q-card-section class="text-white bg-primary text-center">
       <div class="text-h6">
         {{ !category.item.id ? $t("add_category") : $t("edit_category") }}

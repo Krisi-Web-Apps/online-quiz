@@ -42,5 +42,7 @@ CREATE TABLE `questions` (
   `title` VARCHAR(1000) NOT NULL,
   `answers` JSON NOT NULL,
   `lang` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id`)
+  `test_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`test_id`) REFERENCES tests(`id`)
 ) ENGINE = InnoDB;

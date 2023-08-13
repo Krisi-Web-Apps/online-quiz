@@ -46,6 +46,17 @@
           {{ $t("tests") }}
         </q-item-section>
       </q-item>
+      <q-item clickable v-ripple @click="router.push({ name: 'questions' })">
+        <q-item-section avatar>
+          <q-icon
+            :color="isActive('questions') ? 'primary' : null"
+            name="contact_support"
+          />
+        </q-item-section>
+        <q-item-section :class="getClasses('questions')">
+          {{ $t("questions") }}
+        </q-item-section>
+      </q-item>
     </q-list>
   </q-drawer>
 </template>

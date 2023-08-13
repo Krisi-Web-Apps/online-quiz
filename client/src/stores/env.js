@@ -23,6 +23,9 @@ export const EnvStore = defineStore("env", {
       tests: {
         saving: false,
       },
+      questions: {
+        saving: false,
+      }
     },
     layout: {
       leftDrower: true,

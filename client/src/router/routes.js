@@ -30,6 +30,12 @@ const routes = [
         name: "tests",
         component: () => import("pages/TestsPage.vue"),
       },
+      {
+        path: "questions",
+        meta: { previousRoute: null },
+        name: "questions",
+        component: () => import("pages/QuestionsPage.vue"),
+      },
     ],
   },
 

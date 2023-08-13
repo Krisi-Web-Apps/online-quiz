@@ -61,7 +61,7 @@ export default {
 
     if (route.meta.previousRoute.name) {
       category.item.lang = user.me.lang;
-      category.getItems();
+      if (category.items.length == 0) category.getItems();
     }
 
     const functions = {

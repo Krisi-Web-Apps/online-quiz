@@ -13,10 +13,15 @@
     </div>
     <q-dialog
       v-model="env.dialogs.questions.saving"
-      @hide="onClose"
       :maximized="$q.screen.width <= 600"
     >
       <save-dialog />
+    </q-dialog>
+    <q-dialog
+      v-model="env.dialogs.questions.selectTest"
+      :maximized="$q.screen.width <= 600"
+    >
+      <select-test />
     </q-dialog>
     <display-items />
   </q-page>
@@ -24,16 +29,18 @@
 
 <script>
 import { EnvStore } from "src/stores/env";
+import { UserStore } from "src/stores/user";
+import { QuestionStore } from "src/stores/question";
 
 import SaveDialog from "src/components/questions/SaveDialog.vue";
 import DisplayItems from "src/components/questions/DisplayItems.vue";
-import { QuestionStore } from "src/stores/question";
-import { UserStore } from "src/stores/user";
+import SelectTest from "src/components/questions/SelectTest.vue";
 
 export default {
   components: {
     SaveDialog,
     DisplayItems,
+    SelectTest,
   },
   setup() {
     const env = EnvStore();
@@ -41,10 +48,9 @@ export default {
     const user = UserStore();
 
     const functions = {
-      onClose() {},
       createOpen() {
-        question.item = { lang: user.me.lang }
-        env.dialogs.questions.saving = true;
+        question.item = { lang: user.me.lang };
+        env.dialogs.questions.selectTest = true;
       },
     };
 

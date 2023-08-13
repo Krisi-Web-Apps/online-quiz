@@ -25,6 +25,7 @@ export const EnvStore = defineStore("env", {
       },
       questions: {
         saving: false,
+        selectTest: false,
       }
     },
     layout: {

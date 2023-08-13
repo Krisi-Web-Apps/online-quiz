@@ -68,7 +68,6 @@ export default {
       callback(status, message) {
         if (status == 200) {
           env.dialogs.tests.saving = true;
-          test.getItems();
         } else {
           env.te(message);
         }

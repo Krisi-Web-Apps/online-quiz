@@ -67,15 +67,20 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
     $item = Test::getItem($id);
 
-    $response->setData($item);
-    $response->sendJson();
+    if ($item) {
+      $response->setData($item);
+      $response->sendJson();
+    } else {
+      $response->sendError("invalid_id", Response::HTTP_NOT_FOUND);
+    }
   }
 
   $items = Test::getItems();
 
   $response->setData($items);
   $response->sendJson();
-} if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
+}
+if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 
   if (empty($_GET["id"])) {
     $response->sendError("invalid_id", Response::HTTP_BAD_REQUEST);

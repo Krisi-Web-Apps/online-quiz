@@ -9,7 +9,7 @@
     </q-card-section>
 
     <q-card-section>
-      <q-form ref="translationForm" @submit="submit">
+      <q-form ref="translationForm" @submit="submit" @keydown.enter="submit">
         <div class="q-mb-md">
           <q-input
             filled

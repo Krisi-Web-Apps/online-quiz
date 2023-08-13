@@ -1,4 +1,5 @@
 import { defineStore } from "pinia";
+import { useQuasar } from "quasar";
 import { api } from "src/boot/axios";
 
 export const UserStore = defineStore("user", {

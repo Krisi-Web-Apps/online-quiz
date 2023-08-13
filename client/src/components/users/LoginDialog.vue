@@ -5,7 +5,7 @@
     </q-card-section>
 
     <q-card-section>
-      <q-form ref="loginForm" @submit="submit">
+      <q-form ref="loginForm" @submit="submit" @keydown.enter="submit">
         <div class="q-mb-md">
           <q-input
             filled
@@ -57,10 +57,11 @@
       />
       <q-btn
         flat
-        :label="$t('cancel')"
+        :label="$t('register')"
         :disable="user.loading"
         no-caps
         v-close-popup
+        @click="openRegisterDialog"
       />
     </q-card-actions>
   </q-card>
@@ -91,6 +92,10 @@ export default {
           }
         });
       },
+      openRegisterDialog() {
+        env.dialogs.users.login = false;
+        env.dialogs.users.register = true;
+      }
     };
 
     return { env, user, ...functions };

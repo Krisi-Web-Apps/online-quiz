@@ -27,6 +27,8 @@ import { EnvStore } from "src/stores/env";
 
 import SaveDialog from "src/components/questions/SaveDialog.vue";
 import DisplayItems from "src/components/questions/DisplayItems.vue";
+import { QuestionStore } from "src/stores/question";
+import { UserStore } from "src/stores/user";
 
 export default {
   components: {
@@ -35,10 +37,13 @@ export default {
   },
   setup() {
     const env = EnvStore();
+    const question = QuestionStore();
+    const user = UserStore();
 
     const functions = {
       onClose() {},
       createOpen() {
+        question.item = { lang: user.me.lang }
         env.dialogs.questions.saving = true;
       },
     };

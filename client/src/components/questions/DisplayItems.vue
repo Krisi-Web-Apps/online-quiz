@@ -61,7 +61,6 @@ export default {
       callback(status, message) {
         if (status == 200) {
           env.dialogs.questions.saving = true;
-          question.getItems();
         } else {
           env.te(message);
         }
@@ -92,6 +91,45 @@ export default {
     };
 
     return { env, question, ...functions };
+  },
+  data() {
+    return {
+      columns: [
+        {
+          name: "title",
+          required: true,
+          label: this.$t("title"),
+          align: "left",
+          field: (row) => row.title,
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
+          name: "lang",
+          required: true,
+          label: this.$t("lang"),
+          align: "left",
+          field: (row) => row.lang,
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
+          name: "answerCount",
+          required: true,
+          label: this.$t("answer_count"),
+          align: "left",
+          field: (row) => row.answers.length,
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
+          name: "options",
+          required: true,
+          label: this.$t("options"),
+          align: "right",
+        },
+      ],
+    };
   },
 };
 </script>

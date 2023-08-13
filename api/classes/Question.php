@@ -55,6 +55,15 @@ class Question {
     $this->error = $value;
   }
 
+  public function setId($value) {
+    if (empty($value)) {
+      $this->error = "invalid_id";
+      return;
+    }
+    $this->error = null;
+    $this->id = $value;
+  }
+
   public function getError() {
     return $this->error;
   }
@@ -77,14 +86,14 @@ class Question {
 
   public function edit() {
     global $db;
-    $params = array(":id" => $this->id);
     $data = array(
       "title" => $this->title,
       "answers" => $this->answers,
       "test_id" => $this->testId,
       "lang" => $this->lang,
     );
-    $db->update("questions", $data, $params);
+    $id = $this->id;
+    $db->update("questions", $data, "id = $id;");
   }
 
   public static function getItem($id) {

@@ -100,7 +100,7 @@
         no-caps
         @click="$.refs.questionForm.submit()"
         :label="!question.item.id ? $t('add_question') : $t('edit_question')"
-        icon="add"
+        :icon="!question.item.id ? 'add' : 'save'"
       />
       <q-btn
         flat
@@ -127,7 +127,7 @@ export default {
 
     const functions = {
       callback(status, message) {
-        if (status == 201) {
+        if (status == 201 || status == 200) {
           env.dialogs.questions.saving = false;
           env.ts();
           question.getItems();

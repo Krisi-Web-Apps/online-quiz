@@ -11,6 +11,8 @@ if (
 
   $item = Question::getItem($id);
 
+  $item["answers"] = json_decode($item["answers"]);
+
   if ($item) {
     $response->setData($item);
     $response->sendJson();
@@ -24,8 +26,15 @@ if (
 
   $items = Question::getItems();
 
+  foreach ($items as &$item) {
+    $item["answers"] = json_decode($item["answers"]);
+  }
+
+  unset($item);
+
   $response->setData($items);
   $response->sendJson();
+
 } else if (
   $_SERVER["REQUEST_METHOD"] == "POST"
 ) {
@@ -49,10 +58,12 @@ if (
     $data["lang"]
   );
 
-  if (isset($data["id"]) == FALSE)
+  if (isset($data["id"]) == FALSE) {
     $question->create();
-  else
+  } else {
+    $question->setId($data["id"]);
     $question->edit();
+  }
 
   $item = Question::getItem($question->getId());
 
@@ -60,6 +71,18 @@ if (
 
   $response->setData($item);
   $response->sendJson();
+} else if (
+  $_SERVER["REQUEST_METHOD"] == "DELETE"
+) {
+
+  $id = $_GET["id"];
+  $item = Question::getItem($id);
+
+  if ($item)
+    Question::deleteItem($id);
+  else
+    $response->sendError("Method Not Allowed", Response::HTTP_METHOD_NOT_ALLOWED);
+
 } else {
   $response->sendError("Method Not Allowed", Response::HTTP_METHOD_NOT_ALLOWED);
 }

@@ -110,7 +110,12 @@ class Test
 
   public static function getItems() {
     global $db;
-    $items = $db->select("SELECT * FROM tests;");
+    $items = $db->select("SELECT t.name, t.lang, COUNT(q.id) AS question_count
+                          FROM tests t
+                          LEFT JOIN questions q ON t.id = q.test_id
+                          GROUP BY t.id, t.name
+                          ORDER BY t.id;
+    ");
     return $items;
   }
 

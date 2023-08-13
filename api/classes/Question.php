@@ -107,7 +107,7 @@ class Question {
 
   public static function getItems() {
     global $db;
-    $items = $db->select("SELECT * FROM questions;");
+    $items = $db->select("SELECT q.*, t.name AS test_title FROM questions AS q, tests AS t;");
     return $items;
   }
 

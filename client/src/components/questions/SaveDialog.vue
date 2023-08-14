@@ -121,6 +121,8 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router";
+
 import { i18n } from "src/boot/i18n";
 
 import { QuestionStore } from "src/stores/question";
@@ -133,37 +135,43 @@ export default {
     TextEditor,
   },
   setup() {
+    const route = useRoute();
     const env = EnvStore();
     const question = QuestionStore();
     const $t = i18n.global.t;
 
-    const functions = {
-      callback(status, message) {
-        if (status == 201 || status == 200) {
-          env.dialogs.questions.saving = false;
-          env.ts();
-          question.getItems();
-        } else {
-          env.te(message);
-        }
-      },
-      submit() {
-        question.saveItem(functions.callback);
-      },
-      generateSlug(text) {
-        const latinText = env.bulgarianToLatin(text);
-        question.item.slug = latinText;
-      },
-      onUpdateText(text) {
-        question.item.fact = text;
-      },
-    };
-
     if (!question.item.id) question.setEmptyAnswers(4);
 
-    return { env, question, ...functions };
+    return { env, question };
   },
   methods: {
+    callback(status, message) {
+      if (status == 201 || status == 200) {
+        this.env.dialogs.questions.saving = false;
+        this.env.ts();
+        if (this.route.query.test) {
+          this.question.getItems(null, {
+            test_id: route.query.test,
+          });
+        } else {
+          this.question.getItems(null, {
+            all: true,
+          });
+        }
+      } else {
+        this.env.te(message);
+      }
+    },
+    submit() {
+      this.question.saveItem(this.callback);
+    },
+    generateSlug(text) {
+      const latinText = this.env.bulgarianToLatin(text);
+      this.question.item.slug = latinText;
+    },
+    onUpdateText(text) {
+      this.question.item.fact = text;
+    },
     deleteAnswer(index) {
       this.question.item.answers.splice(index, 1);
     },
@@ -172,7 +180,6 @@ export default {
         text: "",
         is_correct: false,
       });
-      this.$refs.answersView.scrollTop = this.$refs.answersView.scrollHeight;
     },
   },
 };

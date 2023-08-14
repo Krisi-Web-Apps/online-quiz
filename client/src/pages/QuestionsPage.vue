@@ -2,7 +2,17 @@
   <q-page padding class="q-pt-none">
     <div class="container">
       <div class="flex justify-between items-center">
-        <h1 class="text-h4 text-center">{{ $t("questions") }}</h1>
+        <div class="flex items-center">
+          <q-btn
+            icon="arrow_back_ios_new"
+            color="primary"
+            flat
+            fab
+            @click="back"
+            v-if="(typeof $route.query.test) != 'undefined'"
+          />
+          <h1 class="text-h4 text-center q-mr-sm">{{ $t("questions") }}</h1>
+        </div>
         <q-btn
           :label="$t('add_question')"
           icon="add"
@@ -28,6 +38,8 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+
 import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
 import { QuestionStore } from "src/stores/question";
@@ -46,12 +58,17 @@ export default {
     const env = EnvStore();
     const question = QuestionStore();
     const user = UserStore();
+    const router = useRouter();
 
     const functions = {
       createOpen() {
         question.item = { lang: user.me.lang };
         env.dialogs.questions.selectTest = true;
       },
+      back() {
+        router.push({ name: 'questions' })
+        question.getItems(null, { all: true });
+      }
     };
 
     return { env, ...functions };

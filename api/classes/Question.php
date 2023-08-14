@@ -113,6 +113,8 @@ class Question {
         q.title,
         q.answers,
         t.name AS test_title,
+        t.slug AS test_slug,
+        t.id AS test_id,
         q.lang,
         q.test_id
       FROM
@@ -120,6 +122,27 @@ class Question {
         tests AS t
       WHERE
         q.test_id = t.id;"
+    );
+    return $items;
+  }
+
+  public static function getItemsByTestId($testId) {
+    global $db;
+    $params = array(":test_id" => $testId);
+    $items = $db->select(
+      "SELECT
+        q.id,
+        q.title,
+        q.answers,
+        t.name AS test_title,
+        t.id AS test_id,
+        q.lang,
+        q.test_id
+      FROM
+        questions AS q,
+        tests AS t
+      WHERE
+        q.test_id = t.id AND t.id = :test_id;", $params
     );
     return $items;
   }

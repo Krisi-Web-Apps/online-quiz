@@ -21,6 +21,24 @@ if (
   $response->sendError("Not Found", Response::HTTP_NOT_FOUND);
 } else if (
   $_SERVER["REQUEST_METHOD"] == "GET"
+  && isset($_GET["test_id"])
+) {
+
+  $testId = $_GET["test_id"];
+
+  $items = Question::getItemsByTestId($testId);
+
+  foreach ($items as &$item) {
+    $item["answers"] = json_decode($item["answers"]);
+  }
+
+  unset($item);
+
+  $response->setData($items);
+  $response->sendJson();
+
+} else if (
+  $_SERVER["REQUEST_METHOD"] == "GET"
   && isset($_GET["all"])
 ) {
 
@@ -35,7 +53,8 @@ if (
   $response->setData($items);
   $response->sendJson();
 
-} else if (
+}
+else if (
   $_SERVER["REQUEST_METHOD"] == "POST"
 ) {
 

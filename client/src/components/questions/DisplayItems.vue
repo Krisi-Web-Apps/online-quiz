@@ -1,13 +1,27 @@
 <template>
   <custom-table
     :rows="question.items"
-    :columns="columns"
+    :columns="question.columns"
     :loading="question.loading"
     :slots="[
+      { name: 'body-cell-test_title', scope: 'props' },
       { name: 'body-cell-lang', scope: 'props' },
       { name: 'body-cell-options', scope: 'props' },
     ]"
   >
+    <template v-slot:body-cell-test_title="props">
+      <q-td>
+        <router-link
+          :to="`?test=${props.scope.row.test_id}`"
+          @click="selectTest(props.scope.row.test_id)"
+          class="text-decoration-none"
+          v-if="!question.loading"
+        >
+          {{ props.scope.row.test_title }}
+        </router-link>
+        <div v-else class="text-grey-6">{{ props.scope.row.test_title }}</div>
+      </q-td>
+    </template>
     <template v-slot:body-cell-lang="props">
       <q-td>
         {{ env.transformArrayToObject(env.languages)[props.scope.row.lang] }}
@@ -43,6 +57,7 @@ import { QuestionStore } from "src/stores/question";
 import { i18n } from "src/boot/i18n";
 
 import CustomTable from "src/components/common/CustomTable.vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
@@ -51,94 +66,55 @@ export default {
   setup() {
     const $t = i18n.global.t;
     const $q = useQuasar();
+    const route = useRoute();
 
     const env = EnvStore();
     const question = QuestionStore();
 
-    if (question.items.length == 0) question.getItems();
+    if (route.query.test) {
+      question.getItems(null, {
+        test_id: route.query.test
+      });
+    } else {
+      question.getItems(null, { all: true });
+    }
 
-    const functions = {
-      callback(status, message) {
-        if (status == 200) {
-          env.dialogs.questions.saving = true;
-        } else {
-          env.te(message);
-        }
-      },
-      deletedCallback(status, message) {
-        if (status == 200) {
-          env.ts($t("successful_deleted"));
-          question.getItems();
-        } else {
-          env.te(message);
-        }
-      },
-      openDialog(id) {
-        question.item.id = id;
-        question.getItem(functions.callback);
-      },
-      confirmDeleteItem(id) {
-        $q.dialog({
-          title: $t("confirm"),
-          message: $t("delete_confimation"),
-          color: "negative",
-          cancel: true,
-        }).onOk(() => {
-          question.item.id = id;
-          question.deleteItem(functions.deletedCallback);
-        });
-      },
-    };
-
-    return { env, question, ...functions };
+    return { env, question };
   },
-  data() {
-    return {
-      columns: [
-        {
-          name: "title",
-          required: true,
-          label: this.$t("title"),
-          align: "left",
-          field: (row) => row.title,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "test_title",
-          required: true,
-          label: this.$t("test_title"),
-          align: "left",
-          field: (row) => row.test_title,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "lang",
-          required: true,
-          label: this.$t("lang"),
-          align: "left",
-          field: (row) => row.lang,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "answerCount",
-          required: true,
-          label: this.$t("answer_count"),
-          align: "left",
-          field: (row) => row.answers.length,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "options",
-          required: true,
-          label: this.$t("options"),
-          align: "right",
-        },
-      ],
-    };
+  methods: {
+    callback(status, message) {
+      if (status == 200) {
+        this.env.dialogs.questions.saving = true;
+      } else {
+        this.env.te(message);
+      }
+    },
+    deletedCallback(status, message) {
+      if (status == 200) {
+        this.env.ts($t("successful_deleted"));
+        this.question.getItems();
+      } else {
+        this.env.te(message);
+      }
+    },
+    openDialog(id) {
+      this.question.item.id = id;
+      this.question.getItem(this.callback);
+    },
+    confirmDeleteItem(id) {
+      this.$q.dialog({
+        title: $t("confirm"),
+        message: $t("delete_confimation"),
+        color: "negative",
+        cancel: true,
+      }).onOk(() => {
+        this.question.item.id = id;
+        this.question.deleteItem(this.deletedCallback);
+      });
+    },
+    selectTest(testId) {
+      this.question.getItems(null, { test_id: testId });
+    },
   },
 };
 </script>

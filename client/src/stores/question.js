@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
+import { i18n } from "src/boot/i18n";
+
+const $t = i18n.global.t;
 
 export const QuestionStore = defineStore("question", {
   state: () => ({
@@ -7,6 +10,50 @@ export const QuestionStore = defineStore("question", {
     url: "/questions",
     item: {},
     items: [],
+    columns: [
+      {
+        name: "title",
+        required: true,
+        label: $t("title"),
+        align: "left",
+        field: (row) => row.title,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "test_title",
+        required: true,
+        label: $t("test_title"),
+        align: "left",
+        field: (row) => row.test_title,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "lang",
+        required: true,
+        label: $t("lang"),
+        align: "left",
+        field: (row) => row.lang,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "answerCount",
+        required: true,
+        label: $t("answer_count"),
+        align: "left",
+        field: (row) => row.answers.length,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "options",
+        required: true,
+        label: $t("options"),
+        align: "right",
+      },
+    ],
   }),
   actions: {
     getItem(cb) {
@@ -26,14 +73,10 @@ export const QuestionStore = defineStore("question", {
         })
         .finally(() => (this.loading = false));
     },
-    getItems(cb) {
+    getItems(cb, params) {
       this.loading = true;
       api
-        .get(this.url, {
-          params: {
-            all: true,
-          }
-        })
+        .get(this.url, { params })
         .then((res) => {
           this.items = res.data;
           if (cb) cb(res.status);
@@ -62,7 +105,7 @@ export const QuestionStore = defineStore("question", {
         .delete(this.url, {
           params: {
             id: this.item.id,
-          }
+          },
         })
         .then((res) => {
           if (cb) cb(res.status);
@@ -80,6 +123,6 @@ export const QuestionStore = defineStore("question", {
           is_correct: false,
         });
       }
-    }
+    },
   },
 });

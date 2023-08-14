@@ -121,6 +121,15 @@ export default {
           sortable: true,
         },
         {
+          name: "category_name",
+          required: true,
+          label: this.$t("category_name"),
+          align: "left",
+          field: (row) => row.category_name,
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
           name: "lang",
           required: true,
           label: this.$t("language"),

@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
     <q-card-section>
-      <q-form ref="testForm" @submit="submit" @keydown.enter="submit">
+      <q-form ref="testForm" @submit="submit" @keydown.shift.enter="submit">
         <div class="q-mb-md">
           <q-input
             filled
@@ -43,22 +43,10 @@
           </q-input>
         </div>
         <div class="q-mb-md">
-          <q-input
-            type="textarea"
-            filled
-            autofocus
-            v-model="test.item.description"
-            :label="$t('description')"
-            :disable="test.loading"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || $t('this_field_is_required'),
-            ]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="edit" />
-            </template>
-          </q-input>
+          <text-editor
+            @updateText="onUpdateText"
+            :model-value="test.item.description"
+          />
         </div>
         <div class="q-mb-md">
           <q-select
@@ -73,8 +61,8 @@
             :options="env.languages"
             emit-value
             map-options
-            :option-label="val => val.key"
-            :option-value="val => val.value"
+            :option-label="(val) => val.key"
+            :option-value="(val) => val.value"
           >
             <template v-slot:prepend>
               <q-icon name="language" />
@@ -93,8 +81,8 @@
             :rules="[
               (val) => (val && val.length > 0) || $t('this_field_is_required'),
             ]"
-            :option-label="val => val.name"
-            :option-value="val => val.id"
+            :option-label="(val) => val.name"
+            :option-value="(val) => val.id"
             :options="category.items"
           >
             <template v-slot:prepend>
@@ -130,8 +118,12 @@
 import { TestStore } from "src/stores/test";
 import { EnvStore } from "src/stores/env";
 import { CategoryStore } from "src/stores/category";
+import TextEditor from "src/components/common/TextEditor.vue";
 
 export default {
+  components: {
+    TextEditor,
+  },
   setup() {
     const env = EnvStore();
     const test = TestStore();
@@ -149,7 +141,10 @@ export default {
       generateSlug(text) {
         const latinText = env.bulgarianToLatin(text);
         test.item.slug = latinText;
-      }
+      },
+      onUpdateText(text) {
+        test.item.description = text;
+      },
     };
 
     category.getItems();

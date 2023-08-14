@@ -25,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $data["slug"],
       $data["category_id"],
       $data["lang"],
-      $data["description"]
+      json_encode($data["description"])
     );
 
     if (empty($test->getError()) == FALSE) {
@@ -39,7 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       $data["slug"],
       $data["category_id"],
       $data["lang"],
-      $data["description"]
+      json_encode($data["description"])
     );
 
     if (empty($test->getError()) == FALSE) {
@@ -52,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $item = $test->getItem($test->getId());
+
+  $item["description"] = json_decode($item["description"]);
 
   $response->setData($item);
   if (empty($data["id"]))
@@ -66,6 +68,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $id = $_GET["id"];
 
     $item = Test::getItem($id);
+    
+    $item["description"] = json_decode($item["description"]);
 
     if ($item) {
       $response->setData($item);

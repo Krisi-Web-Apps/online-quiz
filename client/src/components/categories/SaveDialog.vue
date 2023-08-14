@@ -6,7 +6,7 @@
       </div>
     </q-card-section>
     <q-card-section>
-      <q-form ref="categoryForm" @submit="submit" @keydown.enter="submit">
+      <q-form ref="categoryForm" @submit="submit" @keydown.shift.enter="submit">
         <div class="q-mb-md">
           <q-input
             filled
@@ -43,22 +43,10 @@
           </q-input>
         </div>
         <div class="q-mb-md">
-          <q-input
-            type="textarea"
-            filled
-            autofocus
-            v-model="category.item.description"
-            :label="$t('description')"
-            :disable="category.loading"
-            lazy-rules
-            :rules="[
-              (val) => (val && val.length > 0) || $t('this_field_is_required'),
-            ]"
-          >
-            <template v-slot:prepend>
-              <q-icon name="edit" />
-            </template>
-          </q-input>
+          <text-editor
+            @updateText="onUpdateText"
+            :model-value="category.item.description"
+          />
         </div>
         <div class="q-mb-md">
           <q-select
@@ -106,21 +94,28 @@
 </template>
 
 <script>
-import { i18n } from "src/boot/i18n";
 import { CategoryStore } from "src/stores/category";
 import { EnvStore } from "src/stores/env";
 
+import TextEditor from "src/components/common/TextEditor.vue";
+
 export default {
+  components: {
+    TextEditor,
+  },
   setup() {
     const env = EnvStore();
     const category = CategoryStore();
-    const $t = i18n.global.t;
 
     const functions = {
-      callback() {
-        env.dialogs.categories.saving = false;
-        env.ts();
-        category.getItems();
+      callback(status, message) {
+        if (status == 201 || status == 200) {
+          env.dialogs.categories.saving = false;
+          env.ts();
+          category.getItems();
+        } else {
+          env.te(message);
+        }
       },
       submit() {
         category.saveItem(functions.callback);
@@ -128,6 +123,9 @@ export default {
       generateSlug(text) {
         const latinText = env.bulgarianToLatin(text);
         category.item.slug = latinText;
+      },
+      onUpdateText(text) {
+        category.item.description = text;
       }
     };
 

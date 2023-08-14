@@ -5,6 +5,7 @@ export const CategoryStore = defineStore("category", {
   state: () => ({
     loading: false,
     url: "/categories",
+    searchTerm: "",
     item: {},
     items: [],
   }),

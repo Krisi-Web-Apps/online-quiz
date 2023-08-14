@@ -5,6 +5,7 @@ export const TestStore = defineStore("test", {
   state: () => ({
     loading: false,
     url: "/tests",
+    searchTerm: "",
     item: {},
     items: [],
   }),

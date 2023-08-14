@@ -8,6 +8,7 @@ export const QuestionStore = defineStore("question", {
   state: () => ({
     loading: false,
     url: "/questions",
+    searchTerm: "",
     item: {},
     items: [],
     columns: [

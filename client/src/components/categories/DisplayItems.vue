@@ -1,8 +1,19 @@
 <template>
+  <q-input
+    v-model="category.searchTerm"
+    :label="`${$t('search')}...`"
+    :hint="$t('search_name')"
+    icon="search"
+    filled
+    clearable
+    class="q-mb-sm"
+  />
   <custom-table
     :rows="category.items"
     :columns="columns"
     :loading="category.loading"
+    :filterFn="filter"
+    :searchTerm="category.searchTerm"
     :slots="[
       { name: 'body-cell-lang', scope: 'props' },
       { name: 'body-cell-options', scope: 'props' },
@@ -90,6 +101,12 @@ export default {
           category.item.id = id;
           category.deleteItem(functions.deletedCallback);
         });
+      },
+      filter(row, searchTerm) {
+        const searchLowerCase = searchTerm.toLowerCase();
+        return (
+          row.name.toLowerCase().includes(searchLowerCase)
+        );
       },
     };
 

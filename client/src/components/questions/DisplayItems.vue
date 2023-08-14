@@ -1,51 +1,64 @@
 <template>
-  <custom-table
-    :rows="question.items"
-    :columns="question.columns"
-    :loading="question.loading"
-    :slots="[
-      { name: 'body-cell-test_title', scope: 'props' },
-      { name: 'body-cell-lang', scope: 'props' },
-      { name: 'body-cell-options', scope: 'props' },
-    ]"
-  >
-    <template v-slot:body-cell-test_title="props">
-      <q-td>
-        <router-link
-          :to="`?test=${props.scope.row.test_id}`"
-          @click="selectTest(props.scope.row.test_id)"
-          class="text-decoration-none"
-          v-if="!question.loading"
-        >
-          {{ props.scope.row.test_title }}
-        </router-link>
-        <div v-else class="text-grey-6">{{ props.scope.row.test_title }}</div>
-      </q-td>
-    </template>
-    <template v-slot:body-cell-lang="props">
-      <q-td>
-        {{ env.transformArrayToObject(env.languages)[props.scope.row.lang] }}
-      </q-td>
-    </template>
-    <template v-slot:body-cell-options="props">
-      <q-td class="text-right">
-        <q-btn
-          fab-mini
-          flat
-          icon="edit"
-          color="primary"
-          @click="openDialog(props.scope.row.id)"
-        />
-        <q-btn
-          fab-mini
-          flat
-          icon="delete"
-          color="negative"
-          @click="confirmDeleteItem(props.scope.row.id)"
-        />
-      </q-td>
-    </template>
-  </custom-table>
+  <div>
+    <q-input
+      v-model="question.searchTerm"
+      :label="`${$t('search')}...`"
+      :hint="$t('search_title_and_test_title')"
+      icon="search"
+      filled
+      clearable
+      class="q-mb-sm"
+    />
+    <custom-table
+      :rows="question.items"
+      :columns="question.columns"
+      :loading="question.loading"
+      :filterFn="filter"
+      :searchTerm="question.searchTerm"
+      :slots="[
+        { name: 'body-cell-test_title', scope: 'props' },
+        { name: 'body-cell-lang', scope: 'props' },
+        { name: 'body-cell-options', scope: 'props' },
+      ]"
+    >
+      <template v-slot:body-cell-test_title="props">
+        <q-td>
+          <router-link
+            :to="`?test=${props.scope.row.test_id}`"
+            @click="selectTest(props.scope.row.test_id)"
+            class="text-decoration-none"
+            v-if="!question.loading"
+          >
+            {{ props.scope.row.test_title }}
+          </router-link>
+          <div v-else class="text-grey-6">{{ props.scope.row.test_title }}</div>
+        </q-td>
+      </template>
+      <template v-slot:body-cell-lang="props">
+        <q-td>
+          {{ env.transformArrayToObject(env.languages)[props.scope.row.lang] }}
+        </q-td>
+      </template>
+      <template v-slot:body-cell-options="props">
+        <q-td class="text-right">
+          <q-btn
+            fab-mini
+            flat
+            icon="edit"
+            color="primary"
+            @click="openDialog(props.scope.row.id)"
+          />
+          <q-btn
+            fab-mini
+            flat
+            icon="delete"
+            color="negative"
+            @click="confirmDeleteItem(props.scope.row.id)"
+          />
+        </q-td>
+      </template>
+    </custom-table>
+  </div>
 </template>
 
 <script>
@@ -73,7 +86,7 @@ export default {
 
     if (route.query.test) {
       question.getItems(null, {
-        test_id: route.query.test
+        test_id: route.query.test,
       });
     } else {
       question.getItems(null, { all: true });
@@ -102,19 +115,28 @@ export default {
       this.question.getItem(this.callback);
     },
     confirmDeleteItem(id) {
-      this.$q.dialog({
-        title: $t("confirm"),
-        message: $t("delete_confimation"),
-        color: "negative",
-        cancel: true,
-      }).onOk(() => {
-        this.question.item.id = id;
-        this.question.deleteItem(this.deletedCallback);
-      });
+      this.$q
+        .dialog({
+          title: $t("confirm"),
+          message: $t("delete_confimation"),
+          color: "negative",
+          cancel: true,
+        })
+        .onOk(() => {
+          this.question.item.id = id;
+          this.question.deleteItem(this.deletedCallback);
+        });
     },
     selectTest(testId) {
       this.question.getItems(null, { test_id: testId });
     },
+    filter(row, searchTerm) {
+      const searchLowerCase = searchTerm.toLowerCase();
+      return (
+        row.title.toLowerCase().includes(searchLowerCase) ||
+        row.test_title.toLowerCase().includes(searchLowerCase)
+      );
+    }
   },
 };
 </script>

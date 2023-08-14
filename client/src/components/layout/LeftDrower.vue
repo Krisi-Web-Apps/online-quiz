@@ -15,7 +15,12 @@
           {{ $t("home") }}
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="router.push({ name: 'translations' })">
+      <q-item
+        clickable
+        v-ripple
+        @click="router.push({ name: 'translations' })"
+        v-if="user.isLoggedIn"
+      >
         <q-item-section avatar>
           <q-icon
             :color="isActive('translations') ? 'primary' : null"
@@ -26,7 +31,12 @@
           {{ $t("translations") }}
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="router.push({ name: 'categories' })">
+      <q-item
+        clickable
+        v-ripple
+        @click="router.push({ name: 'categories' })"
+        v-if="user.isLoggedIn"
+      >
         <q-item-section avatar>
           <q-icon
             :color="isActive('categories') ? 'primary' : null"
@@ -37,7 +47,12 @@
           {{ $t("categories") }}
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="router.push({ name: 'tests' })">
+      <q-item
+        clickable
+        v-ripple
+        @click="router.push({ name: 'tests' })"
+        v-if="user.isLoggedIn"
+      >
         <q-item-section avatar>
           <q-icon :color="isActive('tests') ? 'primary' : null" name="quiz" />
         </q-item-section>
@@ -45,7 +60,12 @@
           {{ $t("tests") }}
         </q-item-section>
       </q-item>
-      <q-item clickable v-ripple @click="router.push({ name: 'questions' })">
+      <q-item
+        clickable
+        v-ripple
+        @click="router.push({ name: 'questions' })"
+        v-if="user.isLoggedIn"
+      >
         <q-item-section avatar>
           <q-icon
             :color="isActive('questions') ? 'primary' : null"

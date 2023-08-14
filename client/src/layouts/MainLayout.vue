@@ -1,30 +1,62 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <navigation-bar />
-      <left-drower />
+  <q-layout view="hhh LpR fff">
+    <q-header reveal class="bg-primary text-white">
+      <q-toolbar>
+        <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" />
+
+        <q-toolbar-title>
+          {{ $t("online_quiz") }}
+        </q-toolbar-title>
+
+        <q-btn dense flat round icon="menu" @click="toggleRightDrawer" />
+      </q-toolbar>
     </q-header>
+
+    <q-drawer
+      show-if-above
+      v-model="leftDrawerOpen"
+      class="bg-grey-2"
+      side="left"
+      bordered
+    >
+      <!-- drawer content -->
+    </q-drawer>
+
+    <q-drawer
+      show-if-above
+      v-model="rightDrawerOpen"
+      class="bg-grey-2"
+      side="right"
+      bordered
+    >
+      <!-- drawer content -->
+    </q-drawer>
 
     <q-page-container>
       <router-view />
     </q-page-container>
-    <user-dialogs />
   </q-layout>
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { ref } from "vue";
 
-import NavigationBar from "src/components/header/NavigationBar.vue";
-import LeftDrower from "src/components/layout/LeftDrower.vue";
-import UserDialogs from "src/components/users/UserDialogs.vue";
+export default {
+  setup() {
+    const leftDrawerOpen = ref(false);
+    const rightDrawerOpen = ref(false);
 
-export default defineComponent({
-  name: "MainLayout",
-  components: {
-    NavigationBar,
-    LeftDrower,
-    UserDialogs,
-  }
-});
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+
+      rightDrawerOpen,
+      toggleRightDrawer() {
+        rightDrawerOpen.value = !rightDrawerOpen.value;
+      },
+    };
+  },
+};
 </script>

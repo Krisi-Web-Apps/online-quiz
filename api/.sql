@@ -46,3 +46,10 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`id`),
   FOREIGN KEY(`test_id`) REFERENCES tests(`id`)
 ) ENGINE = InnoDB;
+
+CREATE TABLE `users_tests_passed` (
+  `user_id` INT NOT NULL,
+  `test_id` INT NOT NULL,
+  FOREIGN KEY(`test_id`) REFERENCES tests(`id`),
+  FOREIGN KEY(`user_id`) REFERENCES users(`id`)
+) ENGINE = InnoDB;

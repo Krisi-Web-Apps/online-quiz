@@ -44,6 +44,10 @@ export const EnvStore = defineStore("env", {
         key: $t("russian"),
         value: "ru",
       },
+      {
+        key: $t("spanish"),
+        value: "es",
+      },
     ],
   }),
   actions: {

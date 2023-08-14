@@ -1,9 +1,9 @@
 <template>
   <initial-logic />
-  <q-dialog v-model="env.dialogs.users.register">
+  <q-dialog v-model="env.dialogs.users.register" persistent>
     <register-dialog />
   </q-dialog>
-  <q-dialog v-model="env.dialogs.users.login">
+  <q-dialog v-model="env.dialogs.users.login" persistent>
     <login-dialog />
   </q-dialog>
 </template>

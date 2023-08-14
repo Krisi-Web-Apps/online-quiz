@@ -53,12 +53,14 @@
 <script>
 import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
+import { useRouter } from "vue-router";
 
 export default {
   name: "NavigationBar",
   setup() {
     const env = EnvStore();
     const user = UserStore();
+    const router = useRouter();
 
     const functions = {
       registerOpen() {
@@ -69,7 +71,9 @@ export default {
       },
       logout() {
         user.logout();
-        env.dialogs.users.login = true;
+        router.push({ name: "home" }).then(() => {
+          env.dialogs.users.login = true;
+        });
       },
     };
 

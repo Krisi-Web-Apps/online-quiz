@@ -68,7 +68,6 @@ export default {
       callback(status, message) {
         if (status == 200) {
           env.dialogs.tests.saving = true;
-          test.getItems();
         } else {
           env.te(message);
         }
@@ -113,20 +112,11 @@ export default {
           sortable: true,
         },
         {
-          name: "slug",
+          name: "question_count",
           required: true,
-          label: this.$t("slug"),
+          label: this.$t("question_count"),
           align: "left",
-          field: (row) => row.slug,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "description",
-          required: true,
-          label: this.$t("description"),
-          align: "left",
-          field: (row) => row.description,
+          field: (row) => row.question_count,
           format: (val) => `${val}`,
           sortable: true,
         },

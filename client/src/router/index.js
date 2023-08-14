@@ -6,6 +6,7 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
+import axios from "axios";
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER
@@ -24,6 +25,18 @@ export default route(function (/* { store, ssrContext } */) {
   Router.beforeEach((to, from, next) => {
     if (from && from.meta) {
       to.meta.previousRoute = from;
+    }
+    next();
+  });
+
+  Router.beforeEach((to, from, next) => {
+    if (to.meta.isAuth) {
+      const token = JSON.parse(localStorage.getItem("token"));
+
+      if (!token) {
+        next({ name: "home" });
+        return;
+      }
     }
     next();
   });

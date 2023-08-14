@@ -15,7 +15,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $dataToInsert = array(
     "name" => $data["name"],
     "slug" => $data["slug"],
-    "desc" => isset($data["description"]) ? $data["description"] : null,
+    "desc" => json_encode($data["description"]),
     "lang" => isset($data["lang"]) ? $data["lang"] : null
   );
 
@@ -39,6 +39,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   $fetchedCategory = Category::getItem($category->getId());
+
+  $fetchedCategory["description"] = json_decode($fetchedCategory["description"]);
 
   $response->setData($fetchedCategory);
   $response->sendJson();

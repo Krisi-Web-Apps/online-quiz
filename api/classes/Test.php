@@ -105,12 +105,19 @@ class Test
     global $db;
     $params = array(":id" => $id);
     $items = $db->select("SELECT * FROM tests WHERE id = :id;", $params);
-    return $items[0];
+    if ($items) {
+      return $items[0];
+    }
   }
 
   public static function getItems() {
     global $db;
-    $items = $db->select("SELECT * FROM tests;");
+    $items = $db->select("SELECT t.name, t.id, t.lang, COUNT(q.id) AS question_count
+                          FROM tests t
+                          LEFT JOIN questions q ON t.id = q.test_id
+                          GROUP BY t.id, t.name
+                          ORDER BY t.id;
+    ");
     return $items;
   }
 

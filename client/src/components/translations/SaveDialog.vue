@@ -1,5 +1,5 @@
 <template>
-  <q-card style="width: 700px; max-width: 80vw">
+  <q-card class="medium-dialog">
     <q-card-section class="text-white bg-primary text-center">
       <div class="text-h6">
         {{
@@ -9,7 +9,7 @@
     </q-card-section>
 
     <q-card-section>
-      <q-form ref="translationForm" @submit="submit">
+      <q-form ref="translationForm" @submit="submit" @keydown.enter="submit">
         <div class="q-mb-md">
           <q-input
             filled

@@ -41,6 +41,16 @@ CREATE TABLE `questions` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `title` VARCHAR(1000) NOT NULL,
   `answers` JSON NOT NULL,
+  `fact` TEXT NULL,
   `lang` VARCHAR(20) NOT NULL,
-  PRIMARY KEY (`id`)
+  `test_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  FOREIGN KEY(`test_id`) REFERENCES tests(`id`)
+) ENGINE = InnoDB;
+
+CREATE TABLE `users_tests_passed` (
+  `user_id` INT NOT NULL,
+  `test_id` INT NOT NULL,
+  FOREIGN KEY(`test_id`) REFERENCES tests(`id`),
+  FOREIGN KEY(`user_id`) REFERENCES users(`id`)
 ) ENGINE = InnoDB;

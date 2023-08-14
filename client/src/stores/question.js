@@ -1,21 +1,24 @@
 import { defineStore } from "pinia";
-import { useQuasar } from "quasar";
 import { api } from "src/boot/axios";
 
-export const UserStore = defineStore("user", {
+export const QuestionStore = defineStore("question", {
   state: () => ({
     loading: false,
-    isLoggedIn: false,
-    url: "/users",
-    credentials: {},
-    me: {},
+    url: "/questions",
+    item: {},
+    items: [],
   }),
   actions: {
-    register(cb) {
+    getItem(cb) {
       this.loading = true;
       api
-        .post(`${this.url}/register`, this.credentials)
+        .get(this.url, {
+          params: {
+            id: this.item.id,
+          },
+        })
         .then((res) => {
+          this.item = res.data;
           if (cb) cb(res.status);
         })
         .catch((err) => {
@@ -23,35 +26,16 @@ export const UserStore = defineStore("user", {
         })
         .finally(() => (this.loading = false));
     },
-    login(cb) {
-      this.loading = false;
-      api
-        .post(`${this.url}/login`, this.credentials)
-        .then((res) => {
-          this.afterLogin(res.data.token);
-          if (cb) cb(res.status);
-        })
-        .catch((err) => {
-          if (cb) cb(err.response.status, err.response.data.error);
-        })
-        .finally(() => (this.loading = false));
-    },
-    afterLogin(token) {
-      api.defaults.headers.authorization = `Bearer ${token}`;
-      localStorage.setItem("token", JSON.stringify(token));
-      this.isLoggedIn = true;
-    },
-    logout() {
-      api.defaults.headers.authorization = null;
-      localStorage.removeItem("token");
-      this.isLoggedIn = false;
-    },
-    getUser(cb) {
+    getItems(cb) {
       this.loading = true;
       api
-        .get(`${this.url}`)
+        .get(this.url, {
+          params: {
+            all: true,
+          }
+        })
         .then((res) => {
-          this.me = res.data;
+          this.items = res.data;
           if (cb) cb(res.status);
         })
         .catch((err) => {
@@ -62,9 +46,9 @@ export const UserStore = defineStore("user", {
     saveItem(cb) {
       this.loading = true;
       api
-        .post(this.url, this.me)
+        .post(this.url, this.item)
         .then((res) => {
-          this.me = res.data;
+          this.item = res.data;
           if (cb) cb(res.status);
         })
         .catch((err) => {
@@ -72,5 +56,30 @@ export const UserStore = defineStore("user", {
         })
         .finally(() => (this.loading = false));
     },
+    deleteItem(cb) {
+      this.loading = true;
+      api
+        .delete(this.url, {
+          params: {
+            id: this.item.id,
+          }
+        })
+        .then((res) => {
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => (this.loading = false));
+    },
+    setEmptyAnswers(answerCount) {
+      this.item.answers = [];
+      for (let i = 0; i < answerCount; i++) {
+        this.item.answers.push({
+          text: "",
+          is_correct: false,
+        });
+      }
+    }
   },
 });

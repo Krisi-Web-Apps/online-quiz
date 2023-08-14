@@ -1,8 +1,8 @@
 <template>
   <custom-table
-    :rows="category.items"
+    :rows="question.items"
     :columns="columns"
-    :loading="category.loading"
+    :loading="question.loading"
     :slots="[
       { name: 'body-cell-lang', scope: 'props' },
       { name: 'body-cell-options', scope: 'props' },
@@ -35,14 +35,12 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 
-import { i18n } from "src/boot/i18n";
-
 import { EnvStore } from "src/stores/env";
-import { CategoryStore } from "src/stores/category";
-import { UserStore } from "src/stores/user";
+import { QuestionStore } from "src/stores/question";
+
+import { i18n } from "src/boot/i18n";
 
 import CustomTable from "src/components/common/CustomTable.vue";
 
@@ -51,34 +49,33 @@ export default {
     CustomTable,
   },
   setup() {
-    const route = useRoute();
     const $t = i18n.global.t;
     const $q = useQuasar();
 
     const env = EnvStore();
-    const user = UserStore();
-    const category = CategoryStore();
+    const question = QuestionStore();
 
-    if (route.meta.previousRoute.name) {
-      category.item.lang = user.me.lang;
-      if (category.items.length == 0) category.getItems();
-    }
+    if (question.items.length == 0) question.getItems();
 
     const functions = {
-      callback() {
-        env.dialogs.categories.saving = true;
+      callback(status, message) {
+        if (status == 200) {
+          env.dialogs.questions.saving = true;
+        } else {
+          env.te(message);
+        }
       },
       deletedCallback(status, message) {
         if (status == 200) {
           env.ts($t("successful_deleted"));
-          category.getItems();
+          question.getItems();
         } else {
           env.te(message);
         }
       },
       openDialog(id) {
-        category.item.id = id;
-        category.getItem(functions.callback);
+        question.item.id = id;
+        question.getItem(functions.callback);
       },
       confirmDeleteItem(id) {
         $q.dialog({
@@ -87,41 +84,50 @@ export default {
           color: "negative",
           cancel: true,
         }).onOk(() => {
-          category.item.id = id;
-          category.deleteItem(functions.deletedCallback);
+          question.item.id = id;
+          question.deleteItem(functions.deletedCallback);
         });
       },
     };
 
-    return { env, category, ...functions };
+    return { env, question, ...functions };
   },
   data() {
     return {
       columns: [
         {
-          name: "name",
+          name: "title",
           required: true,
-          label: this.$t("name"),
+          label: this.$t("title"),
           align: "left",
-          field: (row) => row.name,
+          field: (row) => row.title,
           format: (val) => `${val}`,
           sortable: true,
         },
         {
-          name: "slug",
+          name: "test_title",
           required: true,
-          label: this.$t("slug"),
+          label: this.$t("test_title"),
           align: "left",
-          field: (row) => row.slug,
+          field: (row) => row.test_title,
           format: (val) => `${val}`,
           sortable: true,
         },
         {
           name: "lang",
           required: true,
-          label: this.$t("language"),
+          label: this.$t("lang"),
           align: "left",
           field: (row) => row.lang,
+          format: (val) => `${val}`,
+          sortable: true,
+        },
+        {
+          name: "answerCount",
+          required: true,
+          label: this.$t("answer_count"),
+          align: "left",
+          field: (row) => row.answers.length,
           format: (val) => `${val}`,
           sortable: true,
         },

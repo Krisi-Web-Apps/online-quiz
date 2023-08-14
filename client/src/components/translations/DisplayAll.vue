@@ -52,8 +52,11 @@ export default {
     const env = EnvStore();
     const translation = TranslationStore();
 
-    if (translation.tab != "bg") translation.getItemsWithout(translation.tab, null);
-    else translation.getItems();
+    if (translation.tab != "bg") {
+      translation.getItemsWithout(translation.tab, null);
+    } else {
+      if (translation.displingItems.length == 0) translation.getItems();
+    }
 
     const functions = {
       openDialog(name) {

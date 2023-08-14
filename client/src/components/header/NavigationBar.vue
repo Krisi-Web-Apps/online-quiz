@@ -62,22 +62,21 @@ export default {
     const user = UserStore();
     const router = useRouter();
 
-    const functions = {
-      registerOpen() {
-        env.dialogs.users.register = true;
-      },
-      loginOpen() {
-        env.dialogs.users.login = true;
-      },
-      logout() {
-        user.logout();
-        router.push({ name: "home" }).then(() => {
-          env.dialogs.users.login = true;
-        });
-      },
-    };
-
-    return { env, user, ...functions };
+    return { env, user, router };
+  },
+  methods: {
+    registerOpen() {
+      this.env.dialogs.users.register = true;
+    },
+    loginOpen() {
+      this.env.dialogs.users.login = true;
+    },
+    logout() {
+      this.user.logout();
+      this.router.push({ name: "home" }).then(() => {
+        this.env.dialogs.users.login = true;
+      });
+    },
   },
 };
 </script>

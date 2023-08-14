@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
+import { i18n } from "src/boot/i18n";
+
+const $t = i18n.global.t;
 
 export const CategoryStore = defineStore("category", {
   state: () => ({
@@ -8,6 +11,41 @@ export const CategoryStore = defineStore("category", {
     searchTerm: "",
     item: {},
     items: [],
+    columns: [
+      {
+        name: "name",
+        required: true,
+        label: $t("name"),
+        align: "left",
+        field: (row) => row.name,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "slug",
+        required: true,
+        label: $t("slug"),
+        align: "left",
+        field: (row) => row.slug,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "lang",
+        required: true,
+        label: $t("language"),
+        align: "left",
+        field: (row) => row.lang,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "options",
+        required: true,
+        label: $t("options"),
+        align: "right",
+      },
+    ],
   }),
   actions: {
     saveItem(cb) {

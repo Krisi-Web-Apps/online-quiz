@@ -11,7 +11,9 @@
         <q-item-section avatar>
           <q-icon :color="isActive('home') ? 'primary' : null" name="home" />
         </q-item-section>
-        <q-item-section :class="getClasses('home')"> {{ $t("home") }} </q-item-section>
+        <q-item-section :class="getClasses('home')">
+          {{ $t("home") }}
+        </q-item-section>
       </q-item>
       <q-item clickable v-ripple @click="router.push({ name: 'translations' })">
         <q-item-section avatar>
@@ -37,10 +39,7 @@
       </q-item>
       <q-item clickable v-ripple @click="router.push({ name: 'tests' })">
         <q-item-section avatar>
-          <q-icon
-            :color="isActive('tests') ? 'primary' : null"
-            name="quiz"
-          />
+          <q-icon :color="isActive('tests') ? 'primary' : null" name="quiz" />
         </q-item-section>
         <q-item-section :class="getClasses('tests')">
           {{ $t("tests") }}
@@ -78,16 +77,15 @@ export default {
     const env = EnvStore();
     const user = UserStore();
 
-    const functions = {
-      isActive(name) {
-        return this.route.name == name;
-      },
-      getClasses(name) {
-        return `${this.isActive(name) ? "text-primary" : null} text-subtitle1`;
-      },
-    };
-
-    return { route, router, env, user, ...functions };
+    return { route, router, env, user };
+  },
+  methods: {
+    isActive(name) {
+      return this.route.name == name;
+    },
+    getClasses(name) {
+      return `${this.isActive(name) ? "text-primary" : null} text-subtitle1`;
+    },
   },
 };
 </script>

@@ -1,5 +1,8 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
+import { i18n } from "src/boot/i18n";
+
+const $t = i18n.global.t;
 
 export const TranslationStore = defineStore("translation", {
   state: () => ({
@@ -9,7 +12,33 @@ export const TranslationStore = defineStore("translation", {
     items: [],
     displingItems: [],
     displayWithoutAnyLangItems: [],
-    tab: "bg"
+    tab: "bg",
+    columns: [
+      {
+        name: "name",
+        required: true,
+        label: $t("name"),
+        align: "left",
+        field: (row) => row.name,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "text",
+        required: true,
+        label: $t("text"),
+        align: "left",
+        field: (row) => row.text,
+        format: (val) => `${val}`,
+        sortable: true,
+      },
+      {
+        name: "options",
+        required: true,
+        label: $t("options"),
+        align: "right",
+      },
+    ],
   }),
   actions: {
     saveItem(cb) {

@@ -10,7 +10,7 @@
   />
   <custom-table
     :rows="category.items"
-    :columns="columns"
+    :columns="category.columns"
     :loading="category.loading"
     :filterFn="filter"
     :searchTerm="category.searchTerm"
@@ -75,81 +75,39 @@ export default {
       if (category.items.length == 0) category.getItems();
     }
 
-    const functions = {
-      callback() {
-        env.dialogs.categories.saving = true;
-      },
-      deletedCallback(status, message) {
-        if (status == 200) {
-          env.ts($t("successful_deleted"));
-          category.getItems();
-        } else {
-          env.te(message);
-        }
-      },
-      openDialog(id) {
-        category.item.id = id;
-        category.getItem(functions.callback);
-      },
-      confirmDeleteItem(id) {
-        $q.dialog({
-          title: $t("confirm"),
-          message: $t("delete_confimation"),
-          color: "negative",
-          cancel: true,
-        }).onOk(() => {
-          category.item.id = id;
-          category.deleteItem(functions.deletedCallback);
-        });
-      },
-      filter(row, searchTerm) {
-        const searchLowerCase = searchTerm.toLowerCase();
-        return (
-          row.name.toLowerCase().includes(searchLowerCase)
-        );
-      },
-    };
-
-    return { env, category, ...functions };
+    return { env, category };
   },
-  data() {
-    return {
-      columns: [
-        {
-          name: "name",
-          required: true,
-          label: this.$t("name"),
-          align: "left",
-          field: (row) => row.name,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "slug",
-          required: true,
-          label: this.$t("slug"),
-          align: "left",
-          field: (row) => row.slug,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "lang",
-          required: true,
-          label: this.$t("language"),
-          align: "left",
-          field: (row) => row.lang,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "options",
-          required: true,
-          label: this.$t("options"),
-          align: "right",
-        },
-      ],
-    };
+  methods: {
+    callback() {
+      this.env.dialogs.categories.saving = true;
+    },
+    deletedCallback(status, message) {
+      if (status == 200) {
+        this.env.ts($t("successful_deleted"));
+        this.category.getItems();
+      } else {
+        this.env.te(message);
+      }
+    },
+    openDialog(id) {
+      this.category.item.id = id;
+      this.category.getItem(this.callback);
+    },
+    confirmDeleteItem(id) {
+      this.$q.dialog({
+        title: $t("confirm"),
+        message: $t("delete_confimation"),
+        color: "negative",
+        cancel: true,
+      }).onOk(() => {
+        this.category.item.id = id;
+        this.category.deleteItem(this.deletedCallback);
+      });
+    },
+    filter(row, searchTerm) {
+      const searchLowerCase = searchTerm.toLowerCase();
+      return row.name.toLowerCase().includes(searchLowerCase);
+    },
   },
 };
 </script>

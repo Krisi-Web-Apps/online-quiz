@@ -6,7 +6,7 @@
           ? translation.displingItems
           : translation.displayWithoutAnyLangItems
       "
-      :columns="columns"
+      :columns="translation.columns"
       :loading="translation.loading"
       :slots="[{ name: 'body-cell-options', scope: 'props' }]"
     >
@@ -90,36 +90,6 @@ export default {
     };
 
     return { translation, ...functions };
-  },
-  data() {
-    return {
-      columns: [
-        {
-          name: "name",
-          required: true,
-          label: this.$t("name"),
-          align: "left",
-          field: (row) => row.name,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "text",
-          required: true,
-          label: this.$t("text"),
-          align: "left",
-          field: (row) => row.text,
-          format: (val) => `${val}`,
-          sortable: true,
-        },
-        {
-          name: "options",
-          required: true,
-          label: this.$t("options"),
-          align: "right",
-        },
-      ],
-    };
   },
 };
 </script>

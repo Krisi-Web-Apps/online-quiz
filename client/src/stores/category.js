@@ -39,8 +39,8 @@ export const CategoryStore = defineStore("category", {
       this.loading = true;
       api
         .get(`${this.url}/${this.item.id}`)
-        .then((res) => {
-          this.item = res.data;
+          .then((res) => {
+            this.item = res.data;
           if (cb) cb(res.status);
         })
         .catch((err) => {

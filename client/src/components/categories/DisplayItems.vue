@@ -65,13 +65,8 @@ export default {
     }
 
     const functions = {
-      callback(status, message) {
-        if (status == 200) {
-          env.dialogs.categories.saving = true;
-          category.getItems();
-        } else {
-          env.te(message);
-        }
+      callback() {
+        env.dialogs.categories.saving = true;
       },
       deletedCallback(status, message) {
         if (status == 200) {

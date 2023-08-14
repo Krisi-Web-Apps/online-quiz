@@ -11,6 +11,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
   $id = $_SESSION["params"]["id"];
   $category = Category::getItem($id);
 
+  $category["description"] = json_decode($category["description"]);
+
   $response->setData($category);
   $response->sendJson();
 } else if ($_SERVER["REQUEST_METHOD"] == "DELETE") {

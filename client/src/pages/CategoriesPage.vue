@@ -38,7 +38,10 @@ export default {
 
     const functions = {
       createOpen() {
-        category.item = { lang: user.me.lang };
+        category.item = {
+          lang: user.me.lang,
+          description: ""
+        };
         env.dialogs.categories.saving = true;
       },
     };

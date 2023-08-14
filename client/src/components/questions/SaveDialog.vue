@@ -70,19 +70,10 @@
           </div>
         </div>
         <div class="q-mb-md">
-          <q-input
-            type="textarea"
-            filled
-            autofocus
-            :label="$t('interested_fact')"
-            :loading="question.loading"
-            :disable="question.loading"
-            v-model="question.item.fact"
-          >
-            <template v-slot:prepend>
-              <q-icon name="arrow_forward_ios" />
-            </template>
-          </q-input>
+          <text-editor
+            @updateText="onUpdateText"
+            :model-value="question.item.fact"
+          />
         </div>
         <div class="q-mb-md">
           <q-select
@@ -131,10 +122,16 @@
 
 <script>
 import { i18n } from "src/boot/i18n";
+
 import { QuestionStore } from "src/stores/question";
 import { EnvStore } from "src/stores/env";
 
+import TextEditor from "src/components/common/TextEditor.vue";
+
 export default {
+  components: {
+    TextEditor,
+  },
   setup() {
     const env = EnvStore();
     const question = QuestionStore();
@@ -156,6 +153,9 @@ export default {
       generateSlug(text) {
         const latinText = env.bulgarianToLatin(text);
         question.item.slug = latinText;
+      },
+      onUpdateText(text) {
+        question.item.fact = text;
       },
     };
 

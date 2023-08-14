@@ -37,11 +37,12 @@ export default {
     const test = TestStore();
 
     const functions = {
-      onClose() {
-
-      },
+      onClose() {},
       createOpen() {
-        test.item = { lang: user.me.lang };
+        test.item = {
+          lang: user.me.lang,
+          description: ""
+        };
         env.dialogs.tests.saving = true;
       },
     };

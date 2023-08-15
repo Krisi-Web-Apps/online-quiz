@@ -110,12 +110,34 @@ class Test
     }
   }
 
+  public static function getItemBySlug($slug) {
+    global $db;
+    $params = array(":slug" => $slug);
+    $items = $db->select("SELECT
+                              t.*,
+                              COUNT(q.id) AS number_of_questions
+                          FROM
+                              tests t
+                          LEFT JOIN questions q ON
+                              t.id = q.test_id
+                          WHERE
+                              t.slug = :slug
+                          GROUP BY
+                              t.id;
+                          ",
+    $params);
+    if ($items) {
+      return $items[0];
+    }
+  }
+
   public static function getItems() {
     global $db;
     $items = $db->select("SELECT
                           t.name,
                           t.id,
                           t.lang,
+                          t.slug,
                           COUNT(q.id) AS question_count,
                           c.name AS category_name
                       FROM

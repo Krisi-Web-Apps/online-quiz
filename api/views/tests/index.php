@@ -64,6 +64,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
+  if (isset($_GET["slug"])) {
+    $slug = $_GET["slug"];
+    
+    $item = Test::getItemBySlug($slug);
+    $item["description"] = json_decode($item["description"]);
+
+    $response->setData($item);
+    $response->sendJson();
+  }
+
   if (isset($_GET["id"])) {
     $id = $_GET["id"];
 

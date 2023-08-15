@@ -1,7 +1,7 @@
 <template>
   <q-list v-if="test.items.length > 0">
     <div v-for="(item, index) in test.items" :key="index">
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple @click="selectTest(item.slug)">
         <q-item-section side>
           <q-icon name="arrow_forward_ios" />
         </q-item-section>
@@ -22,12 +22,27 @@
 </template>
 
 <script>
+import { EnvStore } from "src/stores/env";
 import { TestStore } from "src/stores/test";
+import { useRoute, useRouter } from "vue-router";
 
 export default {
   setup() {
+    const route = useRoute();
+    const router = useRouter();
+    const env = EnvStore();
     const test = TestStore();
-    return { test };
+
+    if (test.items.length == 0)
+      if (route.query.id) test.getItems(null, { category_id: route.query.id });
+      else test.getItems();
+
+    return { router, env, test };
+  },
+  methods: {
+    selectTest(slug) {
+      this.router.push({ query: { test_slug: slug } });
+    },
   },
 };
 </script>

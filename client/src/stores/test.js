@@ -74,6 +74,23 @@ export const TestStore = defineStore("test", {
         })
         .finally(() => (this.loading = false));
     },
+    getItemBySlug(cb) {
+      this.loading = true;
+      api
+        .get(this.url, {
+          params: {
+            slug: this.item.slug,
+          },
+        })
+        .then((res) => {
+          this.item = res.data;
+          if (cb) cb(res.status);
+        })
+        .catch((err) => {
+          if (cb) cb(err.response.status, err.response.data.error);
+        })
+        .finally(() => (this.loading = false));
+    },
     getItems(cb, params) {
       this.loading = true;
       api
@@ -106,7 +123,7 @@ export const TestStore = defineStore("test", {
         .delete(this.url, {
           params: {
             id: this.item.id,
-          }
+          },
         })
         .then((res) => {
           if (cb) cb(res.status);
@@ -115,6 +132,35 @@ export const TestStore = defineStore("test", {
           if (cb) cb(err.response.status, err.response.data.error);
         })
         .finally(() => (this.loading = false));
-    }
+    },
+  },
+});
+
+export const PlayTestStore = defineStore("playTest", {
+  state: () => ({
+    beginTest: false,
+    currentQuestion: 1,
+    numberOfQuestions: null,
+    selectedIndexes: [],
+    answeredQuestions: [],
+    completedTest: false,
+  }),
+  getters: {
+    checkNextQuestionExists: (state) => state.currentQuestion < state.numberOfQuestions,
+  },
+  actions: {
+    play() {
+      this.beginTest = true;
+    },
+    stop() {
+      this.beginTest = false;
+    },
+    nextQuestion() {
+      if (this.checkNextQuestionExists) this.currentQuestion++;
+      else {
+        this.completedTest = true;
+        this.stop();
+      }
+    },
   },
 });

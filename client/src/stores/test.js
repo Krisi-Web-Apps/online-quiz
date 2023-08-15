@@ -139,14 +139,22 @@ export const TestStore = defineStore("test", {
 export const PlayTestStore = defineStore("playTest", {
   state: () => ({
     beginTest: false,
+    testResults: false,
     currentQuestion: 1,
     numberOfQuestions: null,
     selectedIndexes: [],
     answeredQuestions: [],
     completedTest: false,
+    results: {
+      numberOfPassedQuestions: 0,
+      numberOfFaliedQuestions: 0
+    }
   }),
   getters: {
     checkNextQuestionExists: (state) => state.currentQuestion < state.numberOfQuestions,
+    getNumberOfRemainingQuestions: (state) => state.numberOfQuestions - state.currentQuestion+1,
+    getPercentageOfCompletion: (state) => Math.round(state.results.numberOfPassedQuestions / state.numberOfQuestions * 100),
+    isPassed: (state) => Math.round(state.results.numberOfPassedQuestions / state.numberOfQuestions * 100) > 80,
   },
   actions: {
     play() {
@@ -154,6 +162,7 @@ export const PlayTestStore = defineStore("playTest", {
     },
     stop() {
       this.beginTest = false;
+      this.testResults = true;
     },
     nextQuestion() {
       if (this.checkNextQuestionExists) this.currentQuestion++;
@@ -162,5 +171,8 @@ export const PlayTestStore = defineStore("playTest", {
         this.stop();
       }
     },
+    prevQuestion() {
+      if (this.currentQuestion > 1) this.currentQuestion--;
+    }
   },
 });

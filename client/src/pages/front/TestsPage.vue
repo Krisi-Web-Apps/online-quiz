@@ -19,9 +19,18 @@
       v-model="playTest.beginTest"
       full-height
       :maximized="$q.screen.width <= 600"
-      @hide="onClose"
+      persistent
     >
       <play-test-dialog />
+    </q-dialog>
+    <q-dialog
+      v-model="playTest.testResults"
+      full-height
+      :maximized="$q.screen.width <= 600"
+      persistent
+      @hide="clear"
+    >
+      <test-results />
     </q-dialog>
   </q-page>
 </template>
@@ -31,13 +40,15 @@ import { PlayTestStore, TestStore } from "src/stores/test";
 
 import DisplayItems from "src/components/front/tests/DisplayItems.vue";
 import DsiplayItem from "src/components/front/tests/DsiplayItem.vue";
-import PlayTestDialog from "src/components/play-test/PlayTestDialog.vue";
+import PlayTestDialog from "src/components/front/play-test/PlayTestDialog.vue";
+import TestResults from "src/components/front/play-test/TestResults.vue";
 
 export default {
   components: {
     DisplayItems,
     DsiplayItem,
     PlayTestDialog,
+    TestResults,
   },
   setup() {
     const test = TestStore();
@@ -45,7 +56,7 @@ export default {
     return { test, playTest };
   },
   methods: {
-    onClose() {
+    clear() {
       this.playTest.$reset();
     }
   }

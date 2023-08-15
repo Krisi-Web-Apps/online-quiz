@@ -23,26 +23,40 @@
       </q-list>
       <q-separator class="q-my-md" />
       <div class="text-center">
+        <!-- <q-btn
+          icon="chevron_left"
+          :label="$t('prev_question')"
+          class="text-subtitle1 q-mr-md"
+          color="primary"
+          no-caps
+          @click="onPrev"
+          :disable="playTest.currentQuestion <= 1"
+        /> -->
         <q-btn
           icon-right="chevron_right"
-          :label="$t('next_question')"
+          :label="$t(`${playTest.checkNextQuestionExists ? 'next_question' : 'end_quiz'}`)"
           class="text-subtitle1"
           color="primary"
           no-caps
           @click="onAnswer"
           :disable="playTest.selectedIndexes.length == 0"
-          v-if="playTest.checkNextQuestionExists"
-        />
-        <q-btn
-          :label="$t('end_quiz')"
-          class="text-subtitle1"
-          color="primary"
-          no-caps
-          @click="stop"
-          v-else
         />
       </div>
     </div>
+    <ul>
+      <li>
+        <div class="text-subtitle1">
+          <span class="q-mr-sm">{{ $t("corrent_question") }}:</span>
+          <span>{{ playTest.currentQuestion }}</span>
+        </div>
+      </li>
+      <li>
+        <div class="text-subtitle1">
+          <span class="q-mr-sm">{{ $t("remaining_questions") }}:</span>
+          <span>{{ playTest.getNumberOfRemainingQuestions }}</span>
+        </div>
+      </li>
+    </ul>
     <q-card-actions class="bg-grey-2">
       <q-btn
         icon="stop"
@@ -50,6 +64,7 @@
         color="negative"
         flat
         no-caps
+        v-close-popup
       />
     </q-card-actions>
   </q-card>
@@ -79,15 +94,10 @@ export default {
         this.question.items[this.playTest.currentQuestion - 1];
     },
     onAnswer() {
-      this.saveAnswers();
+      this.isValidAnswer();
+      this.playTest.answeredQuestions.push(this.playTest.selectedIndexes);
       this.clearCurrentStateAnswers();
       this.next();
-    },
-    saveAnswers() {
-      this.playTest.answeredQuestions.push({
-        answerNumber: this.playTest.currentQuestion,
-        selectedIndexes: this.playTest.selectedIndexes
-      });
     },
     clearCurrentStateAnswers() {
       this.playTest.selectedIndexes = [];
@@ -96,6 +106,23 @@ export default {
       this.playTest.completedTest = true;
       this.playTest.stop();
     },
+    isValidAnswer() {
+      let isValid = true;
+
+      this.playTest.selectedIndexes.forEach((index) => {
+        if (!this.question.item.answers[index].is_correct) {
+          isValid = false;
+        }
+      });
+
+      if (isValid) this.playTest.results.numberOfPassedQuestions++;
+      else this.playTest.results.numberOfFaliedQuestions++;
+    },
+    // onPrev() {
+    //   this.playTest.prevQuestion();
+    //   this.getTheQuestion();
+    //   this.playTest.selectedIndexes = this.playTest.answeredQuestions.pop();
+    // }
   },
 };
 </script>

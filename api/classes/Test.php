@@ -135,6 +135,13 @@ class Test
     return $items;
   }
 
+  public static function getItemsByCategoryId($categoryId) {
+    global $db;
+    $params = array(":category_id" => $categoryId);
+    $items = $db->select("SELECT * FROM tests WHERE category_id = :category_id;", $params);
+    return $items;
+  }
+
   public static function deleteItem($id) {
     global $db;
     $db->delete("tests", "id = $id");

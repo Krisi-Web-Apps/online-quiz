@@ -74,10 +74,10 @@ export const TestStore = defineStore("test", {
         })
         .finally(() => (this.loading = false));
     },
-    getItems(cb) {
+    getItems(cb, params) {
       this.loading = true;
       api
-        .get(this.url)
+        .get(this.url, { params })
         .then((res) => {
           this.items = res.data;
           if (cb) cb(res.status);

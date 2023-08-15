@@ -19,7 +19,7 @@
       side="left"
       bordered
     >
-      <!-- drawer content -->
+      <left-navbar />
     </q-drawer>
 
     <q-drawer
@@ -40,8 +40,12 @@
 
 <script>
 import { ref } from "vue";
+import LeftNavbar from "src/components/front/left-navbar/LeftNavbar.vue";
 
 export default {
+  components: {
+    LeftNavbar,
+  },
   setup() {
     const leftDrawerOpen = ref(false);
     const rightDrawerOpen = ref(false);

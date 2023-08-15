@@ -79,10 +79,18 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
   }
 
-  $items = Test::getItems();
+  $categoryId = $_GET["category_id"];
 
-  $response->setData($items);
+  if (isset($categoryId) == FALSE) {
+    $items = Test::getItems();
+    $response->setData($items);
+  } else {
+    $items = Test::getItemsByCategoryId($categoryId);
+    $response->setData($items);
+  }
+
   $response->sendJson();
+
 }
 if ($_SERVER["REQUEST_METHOD"] == "DELETE") {
 

@@ -127,19 +127,21 @@ import { QuestionStore } from "src/stores/question";
 import { EnvStore } from "src/stores/env";
 
 import TextEditor from "src/components/admin/common/TextEditor.vue";
+import { useRoute } from "vue-router";
 
 export default {
   components: {
     TextEditor,
   },
   setup() {
+    const route = useRoute();
     const env = EnvStore();
     const question = QuestionStore();
     const $t = i18n.global.t;
 
     if (!question.item.id) question.setEmptyAnswers(4);
 
-    return { env, question };
+    return { route, env, question };
   },
   methods: {
     callback(status, message) {
@@ -148,7 +150,7 @@ export default {
         this.env.ts();
         if (this.route.query.test) {
           this.question.getItems(null, {
-            test_id: route.query.test,
+            test_id: this.route.query.test,
           });
         } else {
           this.question.getItems(null, {

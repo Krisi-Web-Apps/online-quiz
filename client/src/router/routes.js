@@ -50,6 +50,12 @@ const routes = [
         name: "home",
         component: () => import("pages/front/HomePage.vue"),
       },
+      {
+        path: "tests",
+        meta: { isAuth: false, previousRoute: null },
+        name: "tests",
+        component: () => import("pages/front/TestsPage.vue"),
+      },
     ],
   },
   {

@@ -29,14 +29,7 @@ export const EnvStore = defineStore("env", {
       }
     },
     layout: {
-      // admin
       leftDrower: true,
-      // front
-      front: {
-        leftDrower: {
-          selectedCategory: null,
-        }
-      }
     },
     languages: [
       {

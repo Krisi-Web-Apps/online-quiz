@@ -1,29 +1,20 @@
 <template>
   <q-list>
     <div v-for="(item, index) in category.items" :key="index">
-      <q-item clickable v-ripple @click="getQuestionsByCategory(item.id, index)">
+      <q-item clickable v-ripple @click="getTestsByCategory(item.id)">
         <q-item-section side>
-          <q-icon name="arrow_forward_ios" />
+          <q-icon
+            name="arrow_forward_ios"
+            :class="$route.query.id == item.id ? 'text-primary' : ''"
+          />
         </q-item-section>
-        <q-item-section class="text-subtitle1">
+        <q-item-section
+          class="text-subtitle1"
+          :class="$route.query.id == item.id ? 'text-primary' : ''"
+        >
           {{ item.name }}
         </q-item-section>
       </q-item>
-      <div
-        v-if="index == env.layout.front.leftDrower.selectedCategory"
-        v-for="(item, index) in test.items"
-        :key="index"
-        class="q-ml-md"
-      >
-        <q-item clickable v-ripple>
-          <q-item-section side>
-            <q-icon name="arrow_forward_ios" />
-          </q-item-section>
-          <q-item-section class="text-subtitle1">
-            {{ item.name }}
-          </q-item-section>
-        </q-item>
-      </div>
     </div>
   </q-list>
 </template>
@@ -32,23 +23,27 @@
 import { CategoryStore } from "src/stores/category";
 import { EnvStore } from "src/stores/env";
 import { TestStore } from "src/stores/test";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    const router = useRouter();
     const env = EnvStore();
     const category = CategoryStore();
     const test = TestStore();
 
     category.getItems();
 
-    const functions = {
-      getQuestionsByCategory(category_id, index) {
-        env.layout.front.leftDrower.selectedCategory = index;
-        test.getItems(null, { category_id });
-      },
-    };
-
-    return { env, category, test, ...functions };
+    return { router, env, category, test };
+  },
+  methods: {
+    getTestsByCategory(category_id) {
+      this.router
+        .push({ name: "tests", query: { id: category_id } })
+        .then(() => {
+          this.test.getItems(null, { category_id });
+        });
+    },
   },
 };
 </script>

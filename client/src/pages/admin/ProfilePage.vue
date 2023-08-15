@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import TabPanels from "src/components/profile/TabPanels.vue";
+import TabPanels from "src/components/admin/profile/TabPanels.vue";
 
 export default {
   components: {

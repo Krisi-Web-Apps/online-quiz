@@ -121,21 +121,18 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router";
-
 import { i18n } from "src/boot/i18n";
 
 import { QuestionStore } from "src/stores/question";
 import { EnvStore } from "src/stores/env";
 
-import TextEditor from "src/components/common/TextEditor.vue";
+import TextEditor from "src/components/admin/common/TextEditor.vue";
 
 export default {
   components: {
     TextEditor,
   },
   setup() {
-    const route = useRoute();
     const env = EnvStore();
     const question = QuestionStore();
     const $t = i18n.global.t;

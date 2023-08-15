@@ -12,7 +12,7 @@
 <script>
 import { ref } from "vue";
 
-import ProfileSettings from "src/components/profile/ProfileSettings.vue";
+import ProfileSettings from "src/components/admin/profile/ProfileSettings.vue";
 
 export default {
   components: {

@@ -22,8 +22,8 @@
 import { EnvStore } from "src/stores/env";
 import { TranslationStore } from "src/stores/translation";
 
-import SaveDialog from "src/components/translations/SaveDialog.vue";
-import LanguageTabs from "src/components/translations/LanguageTabs.vue";
+import SaveDialog from "src/components/admin/translations/SaveDialog.vue";
+import LanguageTabs from "src/components/admin/translations/LanguageTabs.vue";
 
 export default {
   components: {

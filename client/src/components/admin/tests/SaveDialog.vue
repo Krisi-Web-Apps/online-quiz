@@ -118,7 +118,8 @@
 import { TestStore } from "src/stores/test";
 import { EnvStore } from "src/stores/env";
 import { CategoryStore } from "src/stores/category";
-import TextEditor from "src/components/common/TextEditor.vue";
+
+import TextEditor from "src/components/admin/common/TextEditor.vue";
 
 export default {
   components: {

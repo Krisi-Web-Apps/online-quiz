@@ -6,7 +6,6 @@ import {
   createWebHashHistory,
 } from "vue-router";
 import routes from "./routes";
-import axios from "axios";
 
 export default route(function (/* { store, ssrContext } */) {
   const createHistory = process.env.SERVER

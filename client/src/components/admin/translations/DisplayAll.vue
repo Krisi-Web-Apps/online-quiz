@@ -40,7 +40,7 @@ import { i18n } from "src/boot/i18n";
 import { EnvStore } from "src/stores/env";
 import { TranslationStore } from "src/stores/translation";
 
-import CustomTable from "src/components/common/CustomTable.vue";
+import CustomTable from "src/components/admin/common/CustomTable.vue";
 
 export default {
   components: {

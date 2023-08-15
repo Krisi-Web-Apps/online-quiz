@@ -44,9 +44,9 @@ import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
 import { QuestionStore } from "src/stores/question";
 
-import SaveDialog from "src/components/questions/SaveDialog.vue";
-import DisplayItems from "src/components/questions/DisplayItems.vue";
-import SelectTest from "src/components/questions/SelectTest.vue";
+import SaveDialog from "src/components/admin/questions/SaveDialog.vue";
+import DisplayItems from "src/components/admin/questions/DisplayItems.vue";
+import SelectTest from "src/components/admin/questions/SelectTest.vue";
 
 export default {
   components: {

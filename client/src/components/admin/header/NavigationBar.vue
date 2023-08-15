@@ -51,9 +51,10 @@
 </template>
 
 <script>
+import { useRouter } from "vue-router";
+
 import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
-import { useRouter } from "vue-router";
 
 export default {
   name: "NavigationBar",

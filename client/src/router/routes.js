@@ -29,7 +29,7 @@ const routes = [
       {
         path: "tests",
         meta: { isAuth: true, previousRoute: null },
-        name: "tests",
+        name: "admin_tests",
         component: () => import("pages/admin/TestsPage.vue"),
       },
       {

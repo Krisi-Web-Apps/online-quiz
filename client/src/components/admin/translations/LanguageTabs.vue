@@ -41,7 +41,7 @@ import { useRoute, useRouter } from "vue-router";
 import { EnvStore } from "src/stores/env";
 import { TranslationStore } from "src/stores/translation";
 
-import DisplayAll from "src/components/translations/DisplayAll.vue";
+import DisplayAll from "src/components/admin/translations/DisplayAll.vue";
 
 export default {
   components: {

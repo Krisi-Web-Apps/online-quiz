@@ -10,9 +10,9 @@
 
 <script>
 import { EnvStore } from "src/stores/env";
-import InitialLogic from "src/components/users/InitialLogic.vue";
-import RegisterDialog from "src/components/users/RegisterDialog.vue";
-import LoginDialog from "src/components/users/LoginDialog.vue";
+import InitialLogic from "src/components/admin/users/InitialLogic.vue";
+import RegisterDialog from "src/components/admin/users/RegisterDialog.vue";
+import LoginDialog from "src/components/admin/users/LoginDialog.vue";
 
 export default {
   name: "UserDialogs",

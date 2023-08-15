@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import NavigationBar from "src/components/header/NavigationBar.vue";
-import LeftDrower from "src/components/layout/LeftDrower.vue";
-import UserDialogs from "src/components/users/UserDialogs.vue";
+import NavigationBar from "src/components/admin/header/NavigationBar.vue";
+import LeftDrower from "src/components/admin/layout/LeftDrower.vue";
+import UserDialogs from "src/components/admin/users/UserDialogs.vue";
 
 export default {
   components: {

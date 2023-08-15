@@ -50,7 +50,7 @@
       <q-item
         clickable
         v-ripple
-        @click="router.push({ name: 'tests' })"
+        @click="router.push({ name: 'admin_tests' })"
         v-if="user.isLoggedIn"
       >
         <q-item-section avatar>
@@ -81,9 +81,10 @@
 </template>
 
 <script>
+import { useRoute, useRouter } from "vue-router";
+
 import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
-import { useRoute, useRouter } from "vue-router";
 
 export default {
   computed: {

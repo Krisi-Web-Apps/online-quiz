@@ -23,8 +23,8 @@ import { EnvStore } from "src/stores/env";
 import { UserStore } from "src/stores/user";
 import { CategoryStore } from "src/stores/category";
 
-import SaveDialog from "src/components/categories/SaveDialog.vue";
-import DisplayItems from "src/components/categories/DisplayItems.vue";
+import SaveDialog from "src/components/admin/categories/SaveDialog.vue";
+import DisplayItems from "src/components/admin/categories/DisplayItems.vue";
 
 export default {
   components: {

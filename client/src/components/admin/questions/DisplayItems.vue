@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { useRoute } from "vue-router";
 import { useQuasar } from "quasar";
 
 import { EnvStore } from "src/stores/env";
@@ -69,8 +70,7 @@ import { QuestionStore } from "src/stores/question";
 
 import { i18n } from "src/boot/i18n";
 
-import CustomTable from "src/components/common/CustomTable.vue";
-import { useRoute } from "vue-router";
+import CustomTable from "src/components/admin/common/CustomTable.vue";
 
 export default {
   components: {

@@ -55,7 +55,7 @@ import { EnvStore } from "src/stores/env";
 import { CategoryStore } from "src/stores/category";
 import { UserStore } from "src/stores/user";
 
-import CustomTable from "src/components/common/CustomTable.vue";
+import CustomTable from "src/components/admin/common/CustomTable.vue";
 
 export default {
   components: {

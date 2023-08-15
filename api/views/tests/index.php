@@ -79,13 +79,11 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     }
   }
 
-  $categoryId = $_GET["category_id"];
-
-  if (isset($categoryId) == FALSE) {
+  if (isset($_GET["category_id"]) == FALSE) {
     $items = Test::getItems();
     $response->setData($items);
   } else {
-    $items = Test::getItemsByCategoryId($categoryId);
+    $items = Test::getItemsByCategoryId($_GET["category_id"]);
     $response->setData($items);
   }
 

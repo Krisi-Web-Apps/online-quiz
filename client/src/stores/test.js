@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { api } from "src/boot/axios";
 import { i18n } from "src/boot/i18n";
+import { QuestionStore } from "./question";
 
 const $t = i18n.global.t;
 
@@ -148,31 +149,51 @@ export const PlayTestStore = defineStore("playTest", {
     results: {
       numberOfPassedQuestions: 0,
       numberOfFaliedQuestions: 0
-    }
+    },
+    items: []
   }),
   getters: {
-    checkNextQuestionExists: (state) => state.currentQuestion < state.numberOfQuestions,
-    getNumberOfRemainingQuestions: (state) => state.numberOfQuestions - state.currentQuestion+1,
-    getPercentageOfCompletion: (state) => Math.round(state.results.numberOfPassedQuestions / state.numberOfQuestions * 100),
-    isPassed: (state) => Math.round(state.results.numberOfPassedQuestions / state.numberOfQuestions * 100) > 80,
+    getNumberOfRemainingQuestions: (state) => state.items.length - state.currentQuestion,
+    getPercentageOfCompletion: (state) => Math.round(state.results.numberOfPassedQuestions / state.items.length * 100),
+    isPassed: (state) => Math.round(state.results.numberOfPassedQuestions / state.items.length * 100) > 80,
   },
   actions: {
-    play() {
-      this.beginTest = true;
-    },
-    stop() {
-      this.beginTest = false;
-      this.testResults = true;
-    },
     nextQuestion() {
-      if (this.checkNextQuestionExists) this.currentQuestion++;
-      else {
-        this.completedTest = true;
-        this.stop();
+      if (this.currentQuestion < this.items.length) {
+        this.currentQuestion++;
+      } else {
+        this.checkQuestion();
+        this.testResults = true;
       }
     },
     prevQuestion() {
       if (this.currentQuestion > 1) this.currentQuestion--;
+    },
+    checkQuestion() {
+      this.results.numberOfPassedQuestions = 0;
+      this.results.numberOfFaliedQuestions = 0;
+
+      let isValid = true;
+
+      this.items.forEach((item, questionIndex) => {
+        if (item.selectedQuestions.length == 0) {
+          isValid = false;
+        }
+
+        const question = QuestionStore();
+
+        item.selectedQuestions.forEach(index => {
+          if (!question.items[questionIndex].answers[index].is_correct) {
+            isValid = false;
+          }
+        });
+
+        if (isValid) this.results.numberOfPassedQuestions++;
+        else this.results.numberOfFaliedQuestions++;
+      });
+    },
+    onClose() {
+      this.$reset();
     }
   },
 });

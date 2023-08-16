@@ -18,6 +18,10 @@
   grid-template-columns: auto auto auto;
 }
 
+.grid-columns-2 {
+  grid-template-columns: auto auto;
+}
+
 .column {
   grid-column: auto;
 }
@@ -31,6 +35,9 @@
 
 @media screen and (max-width: 600px) {
   .grid-columns-3 {
+    grid-template-columns: auto;
+  }
+  .grid-columns-2 {
     grid-template-columns: auto;
   }
 }

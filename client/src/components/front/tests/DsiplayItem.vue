@@ -1,7 +1,9 @@
 <template>
   <q-separator class="q-mb-md" />
-  <div v-html="test.item.description"></div>
-  <q-separator class="q-my-md" />
+  <div v-if="test.item.description">
+    <div v-html="test.item.description"></div>
+    <q-separator class="q-my-md" />
+  </div>
   <div class="text-subtitle1">
     <span>{{ $t("number_of_questions_in_test") }}:</span>
     <span class="q-ml-sm">{{ test.item.number_of_questions }}</span>
@@ -44,8 +46,7 @@ export default {
       },
       getItemsCallBack(status, message) {
         if (status == 200) {
-          playTest.play();
-          playTest.numberOfQuestions = question.items.length;
+          playTest.beginTest = true;
         } else {
           env.te(message);
         }
